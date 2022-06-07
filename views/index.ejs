@@ -10,24 +10,31 @@
 
     <title>WEB_BASED_MAP</title>
     
-
+    <style>
+      .mapboxgl-popup {
+      max-width: 400px;
+      font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+      }
+      </style>
 </head>
 <body>
+  
+  <!-- map div  -->
+  <div id='map' style='width: 70vw; height: 100vh;margin-left: 15px;display: inline-block;'></div>
 
-  <div style="text-align: right;", position="absolute">
-    <label for="longitude">Longitude : </label>
-    <input type="number" id="longitude" name="longitude"><br><br>
+  <!-- input field div  -->
+  <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;" >
     <label for="latitude">Latitude : </label>
     <input type="number" id="latitude" name="latitude"><br><br>
+    <label for="longitude">Longitude : </label>
+    <input type="number" id="longitude" name="longitude"><br><br>
+    <label for="name">Name : </label>
+    <input type="text" id="name" name="name"><br><br>
+    <label for="note">Note : </label>
+    <textarea name="note" id="note" style="resize: none;" cols="30" rows="7"></textarea><br><br>
   </div>
 
-  <style>
-    .mapboxgl-popup {
-    max-width: 400px;
-    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    }
-    </style>
-    <div id='map' style='width: 70vw; height: 100vh;'></div>
+  
 <script>
   mapboxgl.accessToken = 'pk.eyJ1Ijoic3VtYW4wMDA5IiwiYSI6ImNsMzY5YjB2bjFsdHozYnA5dHN3b3FrdjEifQ.rfW8EEKX9_adNETGuzkgrg';
   var map = new mapboxgl.Map({

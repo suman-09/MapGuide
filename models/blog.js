@@ -2,15 +2,19 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;  //Schema defined the stucture of the model that we r gonna like to store in a collection
 
 const blogSchema = new Schema({
-    title: {
+    latitude: {
+        type: Number,
+        required: true
+    },
+    longitude: {
+        type: Number,
+        required: true
+    },
+    name: {
         type: String,
         required: true
     },
-    snippet: {
-        type: String,
-        required: true
-    },
-    body: {
+    note: {
         type: String,
         required: true
     }

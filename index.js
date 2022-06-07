@@ -14,9 +14,10 @@ app.set('view engine', 'ejs');
 
 app.get('/add-blog', (req, res) => {
     const blog = new Blog({
-        title: 'new blog 2',
-        snippet: 'about my new blog',
-        body: 'more about my new blog'
+        latitude: 20.000,
+        longitude: 30.000,
+        name: 'First place',
+        note: 'This is very beautiful place'
     });
 
     blog.save()
