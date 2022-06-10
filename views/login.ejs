@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Based Map</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+        integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+        integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container-fluid d-flex align-items-center justify-content-center">
+        <div class="loginForm">
+            <p class="text-center display-6 text-white mt-4">LOGIN</p>
+            <form action="/Login" method="post">
+                <div class="mb-3 mx-4">
+                    <label for="" class="form-label"></label>
+                    <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelpId"
+                        placeholder="Enter Your Email">
+                </div>
+                <div class="mb-3 mx-4">
+                    <label for="" class="form-label"></label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password">
+                </div>
+                <p class="text-center my-5"><a type="submit" id="submit" class="btn">Submit</a></p>
+            </form>
+
+            <p class="text-center text-white h5 my-3"><span>Don't Have a Account? </span><span><a href="register"
+                        style="text-decoration: none;color: red;"> Register </a></span></p>
+        </div>
+
+
+    </div>
+</body>
+
+</html>
