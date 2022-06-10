@@ -1,3 +1,7 @@
+<!-- <h1>Hello <%= name %> </h1> -->
+
+<!-- importing previous .ejs -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +18,17 @@
       .mapboxgl-popup {
       max-width: 400px;
       font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+      }
+      a{
+        text-decoration: none;
+        border: 2px solid blue;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: all 0.2s;
+      }
+      a:hover{
+        background-color: rgb(0, 0, 255);
+        color: white;
       }
       </style>
 </head>
@@ -32,6 +47,7 @@
     <input type="text" id="name" name="name"><br><br>
     <label for="note">Note : </label>
     <textarea name="note" id="note" style="resize: none;" cols="30" rows="7"></textarea><br><br>
+    <a href="javascript;void(0)">Save</a>
   </div>
 
   
