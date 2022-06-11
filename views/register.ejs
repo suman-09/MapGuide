@@ -21,28 +21,68 @@
         <div class="loginForm">
             <p class="text-center display-6 text-white mt-4">REGISTER</p>
             <form action="/Login" method="post">
+                <!-- name  -->
                 <div class="mb-3 mx-4">
-                  <label for="" class="form-label"></label>
-                  <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="Enter Your Name">
+                  <label for="name" class="form-label"></label>
+                  <input type="text" class="form-control" name="name" id="name" aria-describedby="helpId" placeholder="Enter Your Name" required>
                 </div>
+                <!-- email  -->
                 <div class="mb-3 mx-4">
-                    <label for="" class="form-label"></label>
+                    <label for="email" class="form-label"></label>
                     <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelpId"
-                        placeholder="Enter Your Email">
+                        placeholder="Enter Your Email" required>
                 </div>
+                <div class="email error" style="color: cadetblue; padding: 2px;" ></div>
+                <!-- password  -->
                 <div class="mb-3 mx-4">
-                    <label for="" class="form-label"></label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password">
+                    <label for="password" class="form-label"></label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password" required>
                 </div>
-                <!-- confirm password part  -->
-
-                <!-- <div class="mb-3 mx-4">
-                    <label for="" class="form-label"></label>
-                    <input type="password" class="form-control" name="" id="" placeholder="Confirm password">
-                </div> -->
-                
-                <p class="text-center my-5"><a type="submit" id="submit" class="btn">Submit</a></p>
+                <div class="password error" style="color: cadetblue; padding: 2px;"></div>
+                <p class="text-center my-5"><button id="submit">Submit</button></p>
+                <!-- <a type="submit" id="submit" class="btn">Submit</a>  //old button -->
             </form>
+
+            <!-- js for sending data to server  -->
+            <script>
+                const form = document.querySelector('form');
+                const emailError = document.querySelector('.email.error');
+                const passwordError = document.querySelector('.password.error');
+
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    //reset errors
+                    emailError.textContent = '';
+                    passwordError.textContent = '';
+
+                    //get the values
+                    const name = form.name.value;
+                    const email = form.email.value;
+                    const password = form.password.value;
+
+                    try{
+                        const res = await fetch('/register', {
+                            method: 'POST',
+                            body: JSON.stringify({ name, email, password }), 
+                            //"name: name, email: email" as both of them r same so we can use name, email instead of writing them full
+                            headers: { 'Content-Type' : 'application/json' }
+                        });
+                        const data = await res.json();
+                        console.log(data);
+                        if (data.errors){
+                            emailError.textContent = data.errors.email;
+                            passwordError.textContent = data.errors.password;
+                        }
+                        if (data.user) {
+                            location.assign('/');
+                        }
+                    }
+                    catch (err) {
+                        console.log(err);
+                    }
+                });
+            </script>
 
             <p class="text-center text-white h5 my-3"><span>Don't Have a Account? </span><span><a href="login"
                         style="text-decoration: none;color: red;"> Login </a></span></p>
@@ -53,6 +93,11 @@
 </body>
 
 </html>
+
+
+
+
+<!-- old ejs file  -->
 <!-- <h1 style="text-align: center;">Register</h1>
 
 <form action="/register" method="post">

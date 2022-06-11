@@ -8,6 +8,10 @@ router.post('/register', authController.register_post);
 router.get('/login', authController.login_get);
 router.post('/login', authController.login_post);
 
+
+module.exports = router;
+
+
 // router.get('/', (req,res) => {
 //     res.render('index.ejs', {name: 'kyle'});
 // });
@@ -27,5 +31,3 @@ router.post('/login', authController.login_post);
 // router.post('/register', (req, res) =>{
 //     req.body.name
 // })
-
-module.exports = router;

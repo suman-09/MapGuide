@@ -21,17 +21,34 @@
         <div class="loginForm">
             <p class="text-center display-6 text-white mt-4">LOGIN</p>
             <form action="/Login" method="post">
+                <!-- email  -->
                 <div class="mb-3 mx-4">
-                    <label for="" class="form-label"></label>
+                    <label for="emai;" class="form-label"></label>
                     <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelpId"
-                        placeholder="Enter Your Email">
+                        placeholder="Enter Your Email" required>
                 </div>
+                <!-- password  -->
                 <div class="mb-3 mx-4">
-                    <label for="" class="form-label"></label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password">
+                    <label for="password" class="form-label"></label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password" required>
                 </div>
-                <p class="text-center my-5"><a type="submit" id="submit" class="btn">Submit</a></p>
+                <p class="text-center my-5"><button id="submit">Submit</button></p>
             </form>
+
+            <!-- js for sending data to server  -->
+            <script>
+                const form = document.querySelector('form');
+
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    //get the values
+                    const email = form.email.value;
+                    const password = form.password.value;
+
+                    console.log(email, password);
+                });
+            </script>
 
             <p class="text-center text-white h5 my-3"><span>Don't Have a Account? </span><span><a href="register"
                         style="text-decoration: none;color: red;"> Register </a></span></p>
