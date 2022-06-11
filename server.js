@@ -1,11 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const authRoutes = require('./routes/authRoutes');
 
 //load env vars
 dotenv.config({path: './.env'});
 
 const app = express();
+
+//middleware
+app.use(express.static("public"));
+app.use(express.json());
 
 //view engine
 app.set('view-engine', 'ejs');
@@ -21,25 +26,25 @@ mongoose.connect(dbURI)
 app.get('/', (req,res) => {
     res.render('index.ejs', {name: 'kyle'});
 });
-
-app.get('/login', (req, res) => {
-    res.render('login.ejs');
-});
-
-app.post('/login', (req, res) =>{
-
-})
-
-app.get('/register', (req, res) => {
-    res.render('register.ejs');
-});
-
-app.post('/register', (req, res) =>{
-    req.body.name
-})
-
-//middleware
-app.use(express.static("public"));
+app.use(authRoutes);
 
 // app.listen(8080);
+
+//previous routing
+
+// app.get('/login', (req, res) => {
+//     res.render('login.ejs');
+// });
+
+// app.post('/login', (req, res) =>{
+
+// })
+
+// app.get('/register', (req, res) => {
+//     res.render('register.ejs');
+// });
+
+// app.post('/register', (req, res) =>{
+//     req.body.name
+// })
 
