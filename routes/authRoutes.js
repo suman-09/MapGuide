@@ -10,24 +10,3 @@ router.post('/login', authController.login_post);
 
 
 module.exports = router;
-
-
-// router.get('/', (req,res) => {
-//     res.render('index.ejs', {name: 'kyle'});
-// });
-
-// router.get('/login', (req, res) => {
-//     res.render('login.ejs');
-// });
-
-// router.post('/login', (req, res) =>{
-
-// })
-
-// router.get('/register', (req, res) => {
-//     res.render('register.ejs');
-// });
-
-// router.post('/register', (req, res) =>{
-//     req.body.name
-// })

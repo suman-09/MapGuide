@@ -3,10 +3,6 @@ const { isEmail } = require('validator');
 const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: [true, 'please enter your name']
-    },
     email: {
         type: String,
         required: [true, 'please enter an email'],
@@ -18,6 +14,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'please enter a password'],
         minlength: [6, 'minimum password length is 6 characters']
+    },
+    datas:{
+        type: Array,
+        default:[]
     }
 });
 
@@ -27,10 +27,30 @@ const userSchema = new mongoose.Schema({
 //bcrypt.genSalt is the fxn for generate salt for the password
 userSchema.pre('save', async function(next) {
     const salt = await bcrypt.genSalt();
-    this.password = await bcrypt.hash(this.password, salt);
+    this.password = await bcrypt.hash(this.password ,salt);
     next();
-})
+});
+
+//static method to login user
+userSchema.methods.login = async function( password) {
+    return await bcrypt.compare(password,this.password);
+}
 
 const User = mongoose.model('user', userSchema);
 
 module.exports = User;
+
+//old not working authentication code
+
+    // const user = await this.findOne({ email });
+    // console.log(user);
+
+    // if (user) {
+    //     //changing for salt
+    //     const auth = await bcrypt.compare(password, user.password);
+    //     if (auth) {
+    //         return user;
+    //     }
+    //     throw Error('incorrect password');
+    // }
+    // throw Error('incorrect email');

@@ -20,12 +20,8 @@
     <div class="container-fluid d-flex align-items-center justify-content-center">
         <div class="loginForm">
             <p class="text-center display-6 text-white mt-4">REGISTER</p>
-            <form action="/Login" method="post">
-                <!-- name  -->
-                <div class="mb-3 mx-4">
-                  <label for="name" class="form-label"></label>
-                  <input type="text" class="form-control" name="name" id="name" aria-describedby="helpId" placeholder="Enter Your Name" required>
-                </div>
+            <form action="/register" method="post">
+                <!-- /Login changed to register  -->
                 <!-- email  -->
                 <div class="mb-3 mx-4">
                     <label for="email" class="form-label"></label>
@@ -57,20 +53,18 @@
                     passwordError.textContent = '';
 
                     //get the values
-                    const name = form.name.value;
                     const email = form.email.value;
                     const password = form.password.value;
 
                     try{
                         const res = await fetch('/register', {
                             method: 'POST',
-                            body: JSON.stringify({ name, email, password }), 
-                            //"name: name, email: email" as both of them r same so we can use name, email instead of writing them full
-                            headers: { 'Content-Type' : 'application/json' }
+                            body: JSON.stringify({ email, password }), 
+                            headers: {'Content-Type' : 'application/json'}
                         });
                         const data = await res.json();
                         console.log(data);
-                        if (data.errors){
+                        if (data.errors) {
                             emailError.textContent = data.errors.email;
                             passwordError.textContent = data.errors.password;
                         }

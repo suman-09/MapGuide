@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: false}));
 //database connection
 const dbURI = process.env.MONGODB_URL;  
 mongoose.connect(dbURI)
- .then((result) => app.listen(8080))
+ .then((result) => app.listen(8080)) 
  .catch((err) => console.log(err));
 
 //routes
