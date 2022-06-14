@@ -28,6 +28,7 @@ mongoose.connect(dbURI)
 app.get('/', (req,res) => {
     res.render('home.ejs', {name: 'kyle'}); //changed from index to home.ejs
 });
+
 app.use(authRoutes);
 
 
