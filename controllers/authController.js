@@ -60,10 +60,17 @@ module.exports.login_post = async (req, res) => {
         // console.log(user2);
         const user = await user2.login(password);
         // console.log(user);
+        if(!user){
+            res.redirect('/login');
+        }
+        else{
+             // console.log(user);
         const token = createToken(user._id);
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         //res.status(200).json({ user: user._id });
         res.redirect('/');
+        }
+       
     } catch (err) {
         const errors = handleErrors(err);
         res.status(400).json({ errors });

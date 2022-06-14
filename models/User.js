@@ -14,10 +14,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'please enter a password'],
         minlength: [6, 'minimum password length is 6 characters']
-    },
-    datas:{
-        type: Array,
-        default:[]
     }
 });
 
@@ -32,7 +28,7 @@ userSchema.pre('save', async function(next) {
 });
 
 //static method to login user
-userSchema.methods.login = async function( password) {
+userSchema.methods.login = async function(password) {
     return await bcrypt.compare(password,this.password);
 }
 
