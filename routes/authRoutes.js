@@ -7,6 +7,7 @@ router.get('/register', authController.register_get);
 router.post('/register', authController.register_post);
 router.get('/login', authController.login_get);
 router.post('/login', authController.login_post);
+router.get('/mappage', authController.mappage_get); //added routing for mappage
 
 
 module.exports = router;

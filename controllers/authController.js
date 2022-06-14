@@ -38,6 +38,11 @@ module.exports.register_get = (req, res) => {
 module.exports.login_get = (req, res) => {
     res.render('login.ejs');
 }
+
+//mappage auth controller
+module.exports.mappage_get = (req, res) => {
+    res.render('mappage.ejs');
+}
 module.exports.register_post = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -55,20 +60,16 @@ module.exports.login_post = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        //  console.log(email,password);
         const user2 = await User.findOne({email});
-        // console.log(user2);
         const user = await user2.login(password);
-        // console.log(user);
         if(!user){
             res.redirect('/login');
         }
         else{
-             // console.log(user);
         const token = createToken(user._id);
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         //res.status(200).json({ user: user._id });
-        res.redirect('/');
+        res.redirect('/mappage'); // changed to mappage from /
         }
        
     } catch (err) {
