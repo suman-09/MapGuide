@@ -26,7 +26,7 @@ const handleErrors = (err) => {
 //creating a function for cookies
 const maxAge = 3 * 24 * 60 * 60; //here it takes second but in cookies it in mili second
 const createToken = (id) => {
-    return jwt.sign({ id }, 'my secret', {
+    return jwt.sign({"id": id}, 'my secret', {
         expiresIn:  maxAge
     });
 };
@@ -66,10 +66,12 @@ module.exports.login_post = async (req, res) => {
             res.redirect('/login');
         }
         else{
-        const token = createToken(user._id);
-        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-        //res.status(200).json({ user: user._id });
-        res.redirect('/mappage'); // changed to mappage from /
+            let uid = user2._id+'';
+            // console.log(uid);
+            const token = createToken(uid);
+            res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+            //res.status(200).json({ user: user._id });
+            res.redirect('/mappage'); // changed to mappage from /
         }
        
     } catch (err) {

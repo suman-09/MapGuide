@@ -41,8 +41,18 @@
     <input type="number" id="longitude" name="longitude"><br><br>
     <label for="name">Name : </label>
     <input type="text" id="name" name="name"><br><br>
-    <label for="note">Note : </label>
-    <textarea name="note" id="note" style="resize: none;" cols="30" rows="7"></textarea><br><br>
+    
+    <!-- trying to get output from user  -->
+
+
+      <% if (user) { %>
+        <p>Welcome, <%= user.email %> </p>
+      <% } else { %>
+        <p>not getting email from db</p>
+      <% } %>  
+
+      <label for="note">Note : </label>
+      <textarea name="note" id="note" style="resize: none;" cols="30" rows="7"></textarea><br><br>
     <a href="javascript;void(0)">Save</a>
   </div>
 

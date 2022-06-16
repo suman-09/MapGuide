@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const authController = require('../controllers/authController');
-const { requireAuth } = require('../middleware/authMiddleware');
+const { requireAuth, checkUser } = require('../middleware/authMiddleware');
 
 const router = Router();
 
@@ -9,7 +9,7 @@ router.post('/register', authController.register_post);
 router.get('/login', authController.login_get);
 router.post('/login', authController.login_post);
 router.get('/logout', authController.logout_get); //logging out user
-router.get('/mappage', requireAuth, authController.mappage_get); //added routing for mappage
+router.get('/mappage', requireAuth, checkUser, authController.mappage_get); //added routing for mappage
 
 
 module.exports = router;

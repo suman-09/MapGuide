@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
+// const { checkUser } = require('./middleware/authMiddleware');
 
 //load env vars
 dotenv.config({path: './.env'});
@@ -25,10 +26,10 @@ mongoose.connect(dbURI)
  .catch((err) => console.log(err));
 
 //routes
+// app.get('*', checkUser);
 app.get('/', (req,res) => {
     res.render('home.ejs', {name: 'kyle'}); //changed from index to home.ejs
 });
-
 app.use(authRoutes);
 
 
