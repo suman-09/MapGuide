@@ -22,6 +22,12 @@
             <p class="text-center display-6 text-white mt-4">REGISTER</p>
             <form action="/register" method="post">
                 <!-- /Login changed to register  -->
+                <!-- name  -->
+                <div class="mb-3 mx-4">
+                    <label for="name" class="form-label"></label>
+                    <input type="name" class="form-control" name="name" id="name" aria-describedby="emailHelpId"
+                        placeholder="Enter Your Name" required>
+                </div>
                 <!-- email  -->
                 <div class="mb-3 mx-4">
                     <label for="email" class="form-label"></label>
@@ -53,13 +59,14 @@
                     passwordError.textContent = '';
 
                     //get the values
+                    const name = form.name.value;
                     const email = form.email.value;
                     const password = form.password.value;
 
                     try{
                         const res = await fetch('/register', {
                             method: 'POST',
-                            body: JSON.stringify({ email, password }), 
+                            body: JSON.stringify({ name: name, email: email, password: password }), //adding name
                             headers: {'Content-Type' : 'application/json'},
                         });
                         const data = await res.json();

@@ -35,21 +35,21 @@
 
   <!-- input field div  -->
   <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;" >
+    <!-- trying to get output from user  -->
+
+
+    <% if (user) { %>
+      <p>Welcome, <%= user.name %> </p>
+    <% } else { %>
+      <p>not getting email from db</p>
+    <% } %>  
+    <!-- input field  -->
     <label for="latitude">Latitude : </label>
     <input type="number" id="latitude" name="latitude"><br><br>
     <label for="longitude">Longitude : </label>
     <input type="number" id="longitude" name="longitude"><br><br>
-    <label for="name">Name : </label>
-    <input type="text" id="name" name="name"><br><br>
-    
-    <!-- trying to get output from user  -->
-
-
-      <% if (user) { %>
-        <p>Welcome, <%= user.email %> </p>
-      <% } else { %>
-        <p>not getting email from db</p>
-      <% } %>  
+    <label for="locationname">Name : </label>
+    <input type="text" id="locationname" name="locationname"><br><br>
 
       <label for="note">Note : </label>
       <textarea name="note" id="note" style="resize: none;" cols="30" rows="7"></textarea><br><br>
