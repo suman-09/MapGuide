@@ -1,0 +1,71 @@
+<!-- importing register page content -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Based Map</title>
+</head>
+
+<body>
+    <div>
+        <div>
+            <p>Save your favourite location</p>
+            <form action="/savelocation" method="post">
+                <!-- /Login changed to register  -->
+                <label for="latitude">Latitude : </label>
+                <input type="number" id="latitude" name="latitude"><br><br>
+                <label for="longitude">Longitude : </label>
+                <input type="number" id="longitude" name="longitude"><br><br>
+                <label for="locationname">Location_name : </label>
+                <input type="text" id="locationname" name="locationname"><br><br>
+            
+                  <label for="note">Note : </label>
+                  <textarea name="note" id="note" style="resize: none;" cols="30" rows="7"></textarea><br><br>
+                <p><button id="submit">Savelocation</button></p>
+            </form>
+
+            <!-- js for sending data to server  -->
+            <script>
+                const form = document.querySelector('form');
+
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    //get the values
+                    const latitude = form.latitude.value;
+                    const longitude = form.longitude.value;
+                    const locationname = form.locationname.value;
+                    const note = form.note.value;
+                    try{
+                        const res = await fetch('/savelocation', {
+                            method: 'POST',
+                            body: JSON.stringify({ latitude: latitude, longitude: longitude, locationname: locationname, note: note  }),
+                            headers: {'Content-Type' : 'application/json'},
+                        });
+                        const data = await res;
+                        console.log(data);
+                        if (data.errors) {
+                            emailError.textContent = data.errors.email;
+                            passwordError.textContent = data.errors.password;
+                        }
+                        if (data.redirected) {
+                            location.assign(data.url); //changed from / to mappage
+                        }
+                    }
+                    catch (err) {
+                        console.log(err);
+                    }
+                });
+            </script>
+
+            <p><span>Back to Map-Page</span><span><a href="/mappage"> Map-Page </a></span></p>
+        </div>
+
+
+    </div>
+</body>
+
+</html>

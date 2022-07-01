@@ -44,7 +44,7 @@
       <p>not getting email from db</p>
     <% } %>  
     <!-- input field  -->
-    <label for="latitude">Latitude : </label>
+    <!-- <label for="latitude">Latitude : </label>
     <input type="number" id="latitude" name="latitude"><br><br>
     <label for="longitude">Longitude : </label>
     <input type="number" id="longitude" name="longitude"><br><br>
@@ -52,8 +52,8 @@
     <input type="text" id="locationname" name="locationname"><br><br>
 
       <label for="note">Note : </label>
-      <textarea name="note" id="note" style="resize: none;" cols="30" rows="7"></textarea><br><br>
-    <a href="javascript;void(0)">Save</a>
+      <textarea name="note" id="note" style="resize: none;" cols="30" rows="7"></textarea><br><br> -->
+    <a href="/savelocation">Save your favourite location</a>
   </div>
 
   <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;"><a href="/logout">Logout</a></div>
@@ -243,6 +243,7 @@ const description = e.features[0].properties.description;
 // over the copy being pointed to.
 while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+console.log(coordinates,description);
 }
  
 new mapboxgl.Popup()

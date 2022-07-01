@@ -88,4 +88,35 @@ module.exports.logout_get = (req, res) => {
     res.redirect('/');
 }
 
-//map page post addind information from mappage
+// get request for save location page
+
+module.exports.savelocation_get = (req, res) => {
+    res.render('savelocation.ejs');
+}
+
+//save location post
+
+module.exports.savelocation_post = async (req, res) => {
+    //console.log(req);
+    //console.log(res.locals.user);
+    let data = res.locals.user
+    //console.log('++++++');
+    const {latitude, longitude, locationname, note } = req.body;
+    try {
+        await User.findOne({
+            email: data.email
+        }).then((content) => {
+            content.latitude = latitude
+            content.longitude = longitude
+            content.locationname = locationname
+            content.note = note
+            content.save()
+        })
+        res.redirect('/mappage');
+        //const user = await User.updateMany({latitude: latitude, longitude: longitude, locationname: locationname, note: note });
+    }
+    catch (err) {
+        const errors = handleErrors(err);
+        res.status(400).json({ errors });
+    }
+}
