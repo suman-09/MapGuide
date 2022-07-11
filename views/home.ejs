@@ -1,268 +1,33 @@
-<!-- <h1>Hello <%= name %> </h1> -->
-
-<!-- importing previous .ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/index.css">
-
-
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' />
-
-    <title>WEB_BASED_MAP</title>
-    
-    <!-- <style>
-      .mapboxgl-popup {
-      max-width: 400px;
-      font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-      }
-      a{
-        text-decoration: none;
-        border: 2px solid blue;
-        padding: 5px 10px;
-        border-radius: 5px;
-        transition: all 0.2s;
-      }
-      a:hover{
-        background-color: rgb(0, 0, 255);
-        color: white;
-      }
-      body{
-          background-image: url('../public/images/homebg.jpeg');
-          background-repeat: no-repeat;
-          background-size: cover;
-      }
-      </style> -->
+    <title>Web Based Map</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+        integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+        integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+        crossorigin="anonymous"></script>
 </head>
+
 <body>
-  
-  <!-- map div  -->
-  <div id='map' style='width: 70vw; height: 100vh;margin-left: 15px;display: inline-block;'></div>
+    <div class="container-fluid d-flex align-items-center justify-content-center">
+        <div class="home" style="text-align: center;">
+            <p class="text-center display-6 text-white mt-4">HOME - PAGE</p>
+            <a href="/login" style="text-decoration: none;color: red;">Login</a> <br><br>
+            <a href="/mappage" style="text-decoration: none;color: red;">Map page</a>
+            <p class="text-center text-white h5 my-3"><span>Don't Have a Account? </span><span><a href="register"
+                        style="text-decoration: none;color: red;"> Register </a></span></p>
+        </div>
 
-  <!-- input field div  -->
-  <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;" >
-    <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;">
-        <a href="/login" id="submit">Login</a> <br><br>
-        <a href="/register" id="submit">Register</a><br><br>
-        <a href="/mappage" id="submit">map page</a>
+
     </div>
-  </div>
-
-
-  
-<script>
-  mapboxgl.accessToken = 'pk.eyJ1Ijoic3VtYW4wMDA5IiwiYSI6ImNsMzY5YjB2bjFsdHozYnA5dHN3b3FrdjEifQ.rfW8EEKX9_adNETGuzkgrg';
-  var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v11',
-    center: [-77.04, 38.907],
-    zoom: 11.15
-  });
-
-  
-map.on('load', () => {
-map.addSource('places', {
-// This GeoJSON contains features that include an "icon"
-// property. The value of the "icon" property corresponds
-// to an image in the Mapbox Streets style's sprite.
-'type': 'geojson',
-'data': {
-'type': 'FeatureCollection',
-'features': [
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>Make it Mount Pleasant</strong><p><a href="http://www.mtpleasantdc.com/makeitmtpleasant" target="_blank" title="Opens in a new window">Make it Mount Pleasant</a> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
-'icon': 'theatre-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.038659, 38.931567]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>Mad Men Season Five Finale Watch Party</strong><p>Head to Lounge 201 (201 Massachusetts Avenue NE) Sunday for a <a href="http://madmens5finale.eventbrite.com/" target="_blank" title="Opens in a new window">Mad Men Season Five Finale Watch Party</a>, complete with 60s costume contest, Mad Men trivia, and retro food and drink. 8:00-11:00 p.m. $10 general admission, $20 admission and two hour open bar.</p>',
-'icon': 'theatre-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.003168, 38.894651]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>Big Backyard Beach Bash and Wine Fest</strong><p>EatBar (2761 Washington Boulevard Arlington VA) is throwing a <a href="http://tallulaeatbar.ticketleap.com/2012beachblanket/" target="_blank" title="Opens in a new window">Big Backyard Beach Bash and Wine Fest</a> on Saturday, serving up conch fritters, fish tacos and crab sliders, and Red Apron hot dogs. 12:00-3:00 p.m. $25.grill hot dogs.</p>',
-'icon': 'bar-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.090372, 38.881189]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>Ballston Arts & Crafts Market</strong><p>The <a href="http://ballstonarts-craftsmarket.blogspot.com/" target="_blank" title="Opens in a new window">Ballston Arts & Crafts Market</a> sets up shop next to the Ballston metro this Saturday for the first of five dates this summer. Nearly 35 artists and crafters will be on hand selling their wares. 10:00-4:00 p.m.</p>',
-'icon': 'art-gallery-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.111561, 38.882342]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>Seersucker Bike Ride and Social</strong><p>Feeling dandy? Get fancy, grab your bike, and take part in this year\'s <a href="http://dandiesandquaintrelles.com/2012/04/the-seersucker-social-is-set-for-june-9th-save-the-date-and-start-planning-your-look/" target="_blank" title="Opens in a new window">Seersucker Social</a> bike ride from Dandies and Quaintrelles. After the ride enjoy a lawn party at Hillwood with jazz, cocktails, paper hat-making, and more. 11:00-7:00 p.m.</p>',
-'icon': 'bicycle-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.052477, 38.943951]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>Capital Pride Parade</strong><p>The annual <a href="http://www.capitalpride.org/parade" target="_blank" title="Opens in a new window">Capital Pride Parade</a> makes its way through Dupont this Saturday. 4:30 p.m. Free.</p>',
-'icon': 'rocket-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.043444, 38.909664]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>Muhsinah</strong><p>Jazz-influenced hip hop artist <a href="http://www.muhsinah.com" target="_blank" title="Opens in a new window">Muhsinah</a> plays the <a href="http://www.blackcatdc.com">Black Cat</a> (1811 14th Street NW) tonight with <a href="http://www.exitclov.com" target="_blank" title="Opens in a new window">Exit Clov</a> and <a href="http://godsilla.bandcamp.com" target="_blank" title="Opens in a new window">Gods’illa</a>. 9:00 p.m. $12.</p>',
-'icon': 'music-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.031706, 38.914581]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>A Little Night Music</strong><p>The Arlington Players\' production of Stephen Sondheim\'s  <a href="http://www.thearlingtonplayers.org/drupal-6.20/node/4661/show" target="_blank" title="Opens in a new window"><em>A Little Night Music</em></a> comes to the Kogod Cradle at The Mead Center for American Theater (1101 6th Street SW) this weekend and next. 8:00 p.m.</p>',
-'icon': 'music-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.020945, 38.878241]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>Truckeroo</strong><p><a href="http://www.truckeroodc.com/www/" target="_blank">Truckeroo</a> brings dozens of food trucks, live music, and games to half and M Street SE (across from Navy Yard Metro Station) today from 11:00 a.m. to 11:00 p.m.</p>',
-'icon': 'music-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.007481, 38.876516]
-}
-}
-]
-}
-});
-// Add a layer showing the places.
-map.addLayer({
-'id': 'places',
-'type': 'symbol',
-'source': 'places',
-'layout': {
-'icon-image': '{icon}',
-'icon-allow-overlap': true
-}
-});
- 
-// When a click event occurs on a feature in the places layer, open a popup at the
-// location of the feature, with description HTML from its properties.
-map.on('click', 'places', (e) => {
-// Copy coordinates array.
-const coordinates = e.features[0].geometry.coordinates.slice();
-const description = e.features[0].properties.description;
- 
-// Ensure that if the map is zoomed out such that multiple
-// copies of the feature are visible, the popup appears
-// over the copy being pointed to.
-while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-}
- 
-new mapboxgl.Popup()
-.setLngLat(coordinates)
-.setHTML(description)
-.addTo(map);
-});
- 
-// Change the cursor to a pointer when the mouse is over the places layer.
-map.on('mouseenter', 'places', () => {
-map.getCanvas().style.cursor = 'pointer';
-});
- 
-// Change it back to a pointer when it leaves.
-map.on('mouseleave', 'places', () => {
-map.getCanvas().style.cursor = '';
-});
-});
-
-// When a click event occurs on a feature in the places layer, open a popup at the
-// location of the feature, with description HTML from its properties.
-map.on('click', 'places', (e) => {
-// Copy coordinates array.
-const coordinates = e.features[0].geometry.coordinates.slice();
-const description = e.features[0].properties.description;
- 
-// Ensure that if the map is zoomed out such that multiple
-// copies of the feature are visible, the popup appears
-// over the copy being pointed to.
-while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-}
- 
-new mapboxgl.Popup()
-.setLngLat(coordinates)
-.setHTML(description)
-.addTo(map);
-});
-
-// Change the cursor to a pointer when the mouse is over the places layer.
-map.on('mouseenter', 'places', () => {
-map.getCanvas().style.cursor = 'pointer';
-});
- 
-// Change it back to a pointer when it leaves.
-map.on('mouseleave', 'places', () => {
-map.getCanvas().style.cursor = '';
-});
-
-
-// Add zoom and rotation controls to the map.
-map.addControl(new mapboxgl.NavigationControl());
-
-
-</script>
-
 </body>
+
 </html>
