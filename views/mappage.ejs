@@ -30,12 +30,55 @@
 </head>
 <body>
 
+  <style>
+    .coordinates {
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      position: absolute;
+      bottom: 40px;
+      left: 10px;
+      padding: 5px 10px;
+      margin: 0;
+      font-size: 11px;
+      line-height: 18px;
+      border-radius: 3px;
+      display: none;
+    }
+    #info {
+      display: table;
+      position: absolute;
+      margin: 0px auto;
+      word-wrap: anywhere;
+      white-space: pre-wrap;
+      padding: 10px;
+      border: none;
+      border-radius: 3px;
+      font-size: 12px;
+      text-align: left;
+      color: #222;
+      background: rgb(60, 175, 228);
+    }
+    #features {
+      position: absolute;
+      top: auto;
+      right: auto;
+      bottom: auto;
+      width: auto;
+      overflow: auto;
+      background: rgba(125, 215, 231, 0.8);
+      }
+    #map canvas {
+      cursor: default;
+    }
+    </style>
+
   <!-- Load the `mapbox-gl-geocoder` plugin. -->
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
   
   <!-- map div  -->
   <div id='map' style='width: 70vw; height: 100vh;margin-left: 15px;display: inline-block;'></div>
+
 
   <!-- input field div  -->
   <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;" >
@@ -49,15 +92,25 @@
     <% } %> 
     <a href="/savelocation">Save your favourite location</a>
   </div>
+ 
+
+  <!-- features div part -->
+  <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;" >
+    <pre id="features"></pre>
+  </div>
 
   <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;"><a href="/logout">Logout</a></div>
 
-  <div id='map'></div>
+  <!-- <div id='map'></div> -->
+  <pre id="coordinates" class="coordinates"></pre>
+  <pre id="info" class="info"></pre>
+  <!-- <pre id="features"></pre> -->
+ 
   
 <script>
   mapboxgl.accessToken = 'pk.eyJ1Ijoic3VtYW4wMDA5IiwiYSI6ImNsMzY5YjB2bjFsdHozYnA5dHN3b3FrdjEifQ.rfW8EEKX9_adNETGuzkgrg';
 
-  //trying something new
+  //trying something new //code for getting user current location
   // navigator.geolocation.getCurrentPosition(successLocation, errorLocation, { enableHighAccuracy: true }) //this is the api to get your current location
 
   // function successLocation(position) {
@@ -68,17 +121,6 @@
   //   setupMap([-77.04, 38.907])
   //   console.log(error)
   // }
-
-  //L.mapbox.accessToken = 'pk.eyJ1Ijoic3VtYW4wMDA5IiwiYSI6ImNsMzY5YjB2bjFsdHozYnA5dHN3b3FrdjEifQ.rfW8EEKX9_adNETGuzkgrg';
-  // adding searching feature in map
-
-  // L.mapbox.map('map')
-  // .setView([43.945, 19.380], 5)
-  // .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'))
-  // .addControl(L.mapbox.geocoderControl('mapbox.places', {
-  //     autocomplete: true
-  // }));
-
   // function setupMap(center){
 
   //   var map = new mapboxgl.Map({
@@ -108,12 +150,76 @@
     zoom: 11.15
   });
     // Add the control to the map.
-  map.addControl(
-  new MapboxGeocoder({
-  accessToken: mapboxgl.accessToken,
-  mapboxgl: mapboxgl
-  })
+    map.addControl(
+    new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl
+    })
   );
+
+ //marker part
+    map.onDragEnd
+      const marker = new mapboxgl.Marker({
+      draggable: true
+      })
+      .setLngLat([-77.04, 38.907])
+      .addTo(map);
+      
+      function onDragEnd() {
+      const lngLat = marker.getLngLat();
+      coordinates.style.display = 'block';
+      coordinates.innerHTML = `Longitude: ${lngLat.lng}<br />Latitude: ${lngLat.lat}`;
+      console.log(coordinates.innerHTML)
+      }
+      
+      marker.on('dragend', onDragEnd);
+ 
+
+//getting the latitutde and logitude on click
+
+
+    map.on('click', (e) => {
+      document.getElementById('info').innerHTML =
+      // `e.point` is the x, y coordinates of the `mousemove` event
+      // relative to the top-left corner of the map.
+    JSON.stringify(e.point) +
+    '<br />' +
+    // `e.lngLat` is the longitude, latitude geographical position of the event.
+    // map.on('click', (e) => {
+    // console.log(e.point)
+      console.log(e.lngLat)
+    // })
+    JSON.stringify(e.lngLat.wrap());
+    });
+
+//getting information about the place
+
+    map.on('click', (e) => {
+    const features = map.queryRenderedFeatures(e.point);
+    
+    // Limit the number of properties we're displaying for
+    // legibility and performance
+    const displayProperties = [
+    'properties'
+    ];
+    
+    const displayFeatures = features.map((feat) => {
+    const displayFeat = {};
+    displayProperties.forEach((prop) => {
+    displayFeat[prop] = feat[prop];
+    });
+    return displayFeat;
+    });
+ 
+    // Write object as string with an indent of two spaces.
+    // document.getElementById('features').innerHTML = JSON.stringify(
+    // displayFeatures,
+    // null,
+    // 2
+    // );
+    console.log(displayFeatures)
+    });
+
   
 map.on('load', () => {
 map.addSource('places', {
@@ -128,7 +234,7 @@ map.addSource('places', {
 'type': 'Feature',
 'properties': {
 'description':
-'<strong>Make it Mount Pleasant</strong><p><a href="http://www.mtpleasantdc.com/makeitmtpleasant" target="_blank" title="Opens in a new window">Make it Mount Pleasant</a> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
+'<strong>Make it Mount Pleasant</strong><p><a href="http://www.mtpleasantdc.com/makeitmtpleasant" target="_blank" title="Opens in a new window">Make it Mount Pleasant</a><a href="/savelocation">save location</a> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
 'icon': 'theatre-15'
 },
 'geometry': {
