@@ -29,6 +29,10 @@
       </style>
 </head>
 <body>
+
+  <!-- Load the `mapbox-gl-geocoder` plugin. -->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
   
   <!-- map div  -->
   <div id='map' style='width: 70vw; height: 100vh;margin-left: 15px;display: inline-block;'></div>
@@ -52,6 +56,19 @@
   
 <script>
   mapboxgl.accessToken = 'pk.eyJ1Ijoic3VtYW4wMDA5IiwiYSI6ImNsMzY5YjB2bjFsdHozYnA5dHN3b3FrdjEifQ.rfW8EEKX9_adNETGuzkgrg';
+
+  //trying something new
+  // navigator.geolocation.getCurrentPosition(successLocation, errorLocation, { enableHighAccuracy: true }) //this is the api to get your current location
+
+  // function successLocation(position) {
+  //   console.log(position)
+  //   setupMap([position.coords.longitude, position.coords.latitude])  //longitude first and latitude second
+  // }
+  // function errorLocation(error) {
+  //   setupMap([-77.04, 38.907])
+  //   console.log(error)
+  // }
+
   //L.mapbox.accessToken = 'pk.eyJ1Ijoic3VtYW4wMDA5IiwiYSI6ImNsMzY5YjB2bjFsdHozYnA5dHN3b3FrdjEifQ.rfW8EEKX9_adNETGuzkgrg';
   // adding searching feature in map
 
@@ -62,12 +79,41 @@
   //     autocomplete: true
   // }));
 
+  // function setupMap(center){
+
+  //   var map = new mapboxgl.Map({
+  //   container: 'map',
+  //   style: 'mapbox://styles/mapbox/streets-v11',
+  //   center: center,
+  //   zoom: 11.15
+  // });
+
+  // const nav = new mapboxgl.NavigationControl();
+  // map.addControl(nav);
+
+  // // Add the control to the map.
+  // map.addControl(
+  // new MapboxGeocoder({
+  // accessToken: mapboxgl.accessToken,
+  // mapboxgl: mapboxgl
+  // })
+  // );
+
+  // }
+
   var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
     center: [-77.04, 38.907],
     zoom: 11.15
   });
+    // Add the control to the map.
+  map.addControl(
+  new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl
+  })
+  );
   
 map.on('load', () => {
 map.addSource('places', {
@@ -264,7 +310,8 @@ map.getCanvas().style.cursor = '';
 
 
 // Add zoom and rotation controls to the map.
-map.addControl(new mapboxgl.NavigationControl());
+const nav = new mapboxgl.NavigationControl()
+map.addControl(nav, 'top-left');
 
 
 </script>
