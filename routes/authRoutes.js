@@ -10,6 +10,7 @@ router.get('/login', authController.login_get);
 router.post('/login', authController.login_post);
 router.get('/logout', authController.logout_get); //logging out user
 router.get('/mappage', requireAuth, checkUser, authController.mappage_get); //added routing for mappage
+router.post('/mappage', requireAuth, checkUser, authController.mappage_post); //added post for mappage
 router.get('/savelocation',requireAuth, checkUser, authController.savelocation_get); //added routing for savelocation page
 router.post('/savelocation',requireAuth, checkUser, authController.savelocation_post); 
 

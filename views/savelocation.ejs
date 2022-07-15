@@ -48,11 +48,9 @@
                         const data = await res;
                         console.log(data);
                         if (data.errors) {
-                            // emailError.textContent = data.errors.email;
-                            // passwordError.textContent = data.errors.password;
                         }
                         if (data.redirected) {
-                            location.assign(data.url); //changed from / to mappage
+                            location.assign(data.url); 
                         }
                     }
                     catch (err) {

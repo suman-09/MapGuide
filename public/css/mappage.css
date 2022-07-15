@@ -1,0 +1,54 @@
+.mapboxgl-popup {
+    max-width: 400px;
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+a{
+      text-decoration: none;
+      border: 2px solid blue;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: all 0.2s;
+    }
+a:hover{
+      background-color: rgb(0, 0, 255);
+      color: white;
+    }
+.coordinates {
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        position: absolute;
+        bottom: 40px;
+        left: 10px;
+        padding: 5px 10px;
+        margin: 0;
+        font-size: 11px;
+        line-height: 18px;
+        border-radius: 3px;
+        display: none;
+    }
+#info {
+        display: table;
+        position: absolute;
+        margin: 0px auto;
+        word-wrap: anywhere;
+        white-space: pre-wrap;
+        padding: 10px;
+        border: none;
+        border-radius: 3px;
+        font-size: 12px;
+        text-align: left;
+        color: #222;
+        background: rgb(60, 175, 228);
+    }
+#features {
+        position: absolute;
+        top: auto;
+        right: auto;
+        bottom: auto;
+        width: auto;
+        overflow: auto;
+        background: rgba(125, 215, 231, 0.8);
+    }
+#map canvas {
+        cursor: default;
+    }

@@ -7,10 +7,431 @@
 
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="/css/mappage.css">
 
     <title>WEB_BASED_MAP</title>
     
-    <style>
+</head>
+<body>
+
+  <!-- Load the `mapbox-gl-geocoder` plugin. -->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+  
+  <!-- map div  -->
+  <div id='map' style='width: 70vw; height: 100vh;margin-left: 15px;display: inline-block;'></div>
+
+
+  <!-- input field div  -->
+  <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;" >
+    <!-- trying to get output from user  -->
+
+
+    <% if (user) { %>
+      <p>Welcome, <%= user.name %> </p>
+    <% } else { %>
+      <p>not getting email from db</p>
+    <% } %> 
+    <a href="/savelocation">Save your favourite location</a>
+  </div>
+ 
+
+  <!-- features div part -->
+  <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;" >
+    <pre id="features"></pre>
+  </div>
+
+  <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;"><a href="/logout">Logout</a></div>
+
+  <!-- <div id='map'></div> -->
+  <pre id="coordinates" class="coordinates"></pre>
+  <pre id="info" class="info"></pre>
+  <!-- <pre id="features"></pre> -->
+ 
+  
+<script>
+
+  mapboxgl.accessToken = 'pk.eyJ1Ijoic3VtYW4wMDA5IiwiYSI6ImNsMzY5YjB2bjFsdHozYnA5dHN3b3FrdjEifQ.rfW8EEKX9_adNETGuzkgrg';
+
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [-77.04, 38.907],
+    zoom: 11.15
+  });
+    // Searching feature--->
+    map.addControl(
+    new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl
+    })
+  );
+
+ //marker part
+    map.onDragEnd
+      const marker = new mapboxgl.Marker({
+      draggable: true
+      })
+      .setLngLat([-77.04, 38.907])
+      .addTo(map);
+      
+      function onDragEnd() {
+      const lngLat = marker.getLngLat();
+      coordinates.style.display = 'block';
+      coordinates.innerHTML = `Longitude: ${lngLat.lng}` + `Latitude: ${lngLat.lat}`;
+      //console.log(coordinates.innerHTML.lng);
+      //console.log(coordinates.innerHTML.lat);
+      const jsonlngdata = JSON.stringify(lngLat.lng);
+      const jsonlatdata = JSON.stringify(lngLat.lat);
+      const objlngcode = JSON.parse(jsonlngdata);
+      const objlatcode = JSON.parse(jsonlatdata);
+      console.log(objlngcode);
+      console.log(objlatcode);
+
+      //adding code to save data to db
+
+      // const DragEnd = document.querySelector('onDragend');
+
+      //           DragEnd.addEventListener('onDragend', async (e) => {
+      //               e.preventDefault();
+
+      //               //get the values
+      //               const longitude = objlngcode;
+      //               const latitude = objlatcode;
+      //               console.log(longitude);
+      //               console.log(latitude);
+      //               try{
+      //                   const res = await fetch('/mappage', {
+      //                       method: 'POST',
+      //                       body: JSON.stringify({ longitude: longitude, latitude: latitude }),
+      //                       headers: {'Content-Type' : 'application/json'},
+      //                   });
+      //                   const data = await res;
+      //                   console.log(data);
+      //                   if (data.errors) {
+      //                   }
+      //                   if (data.redirected) {
+      //                       location.assign(data.url);
+      //                   }
+      //               }
+      //               catch (err) {
+      //                   console.log(err);
+      //               }
+      //           });
+
+
+
+
+      }
+      
+      marker.on('dragend', onDragEnd);
+ 
+
+//getting the latitutde and logitude on click
+
+
+    map.on('click', (e) => {
+      document.getElementById('info').innerHTML =
+      // `e.point` is the x, y coordinates of the `mousemove` event
+      // relative to the top-left corner of the map.
+    JSON.stringify(e.point) +
+    '<br />' +
+    // `e.lngLat` is the longitude, latitude geographical position of the event.
+    // map.on('click', (e) => {
+    // console.log(e.point)
+    // })
+    JSON.stringify(e.lngLat.wrap());
+    //console.log(e.lngLat);
+    const jsondata = JSON.stringify(e.lngLat);
+    const objdata = JSON.parse(jsondata);
+    //console.log(objdata);
+    console.log(objdata.lng);
+    console.log(objdata.lat);
+    //adding part to send data to db
+
+    // const info = document.querySelector('info');
+
+    //             info.addEventListener('click', async (e) => {
+    //                 e.preventDefault();
+
+    //                 //get the values
+    //                 const longitude = objdata.lng;
+    //                 const latitude = objdata.lat;
+    //                 console.log(longitude);
+    //                 console.log(latitude);
+    //                 try{
+    //                     const res = await fetch('/mappage', {
+    //                         method: 'POST',
+    //                         body: JSON.stringify({ longitude: longitude, latitude: latitude }),
+    //                         headers: {'Content-Type' : 'application/json'},
+    //                     });
+    //                     const data = await res;
+    //                     console.log(data);
+    //                     if (data.errors) {
+    //                     }
+    //                     if (data.redirected) {
+    //                         location.assign(data.url);
+    //                     }
+    //                 }
+    //                 catch (err) {
+    //                     console.log(err);
+    //                 }
+    //             });
+
+    });
+
+//getting information about the place
+
+    map.on('click', (e) => {
+    const features = map.queryRenderedFeatures(e.point);
+    
+    // Limit the number of properties we're displaying for
+    // legibility and performance
+    const displayProperties = [
+    'properties'
+    ];
+    
+    const displayFeatures = features.map((feat) => {
+    const displayFeat = {};
+    displayProperties.forEach((prop) => {
+    displayFeat[prop] = feat[prop];
+    });
+    return displayFeat;
+    });
+ 
+    // Write object as string with an indent of two spaces.
+    // document.getElementById('features').innerHTML = JSON.stringify(
+    // displayFeatures,
+    // null,
+    // 2
+    // );
+    console.log(displayFeatures)
+    });
+
+  //geo coder finding place reverse geocoding
+
+  // const geocoder = new MapboxGeocoder({
+  //   accessToken: mapboxgl.accessToken,
+  //   mapboxgl: mapboxgl
+  // });
+
+  // ---->>> information about place
+
+  // import the information part in between these 2 comments
+  
+
+
+// Add zoom and rotation controls to the map.
+const nav = new mapboxgl.NavigationControl()
+map.addControl(nav, 'top-left');
+
+
+</script>
+
+</body>
+</html>
+
+<!-- information part of the map where static data given  -->
+
+<!-- // map.on('load', () => {
+  // map.addSource('places', {
+  // // This GeoJSON contains features that include an "icon"
+  // // property. The value of the "icon" property corresponds
+  // // to an image in the Mapbox Streets style's sprite.
+  // 'type': 'geojson',
+  // 'data': {
+  // 'type': 'FeatureCollection',
+  // 'features': [
+  // {
+  // 'type': 'Feature',
+  // 'properties': {
+  // 'description':
+  // '<strong>Make it Mount Pleasant</strong><p><a href="http://www.mtpleasantdc.com/makeitmtpleasant" target="_blank" title="Opens in a new window">Make it Mount Pleasant</a><a href="/savelocation">save location</a> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
+  // 'icon': 'theatre-15'
+  // },
+  // 'geometry': {
+  // 'type': 'Point',
+  // 'coordinates': [-77.038659, 38.931567]
+  // }
+  // },
+  // {
+  // 'type': 'Feature',
+  // 'properties': {
+  // 'description':
+  // '<strong>Mad Men Season Five Finale Watch Party</strong><p>Head to Lounge 201 (201 Massachusetts Avenue NE) Sunday for a <a href="http://madmens5finale.eventbrite.com/" target="_blank" title="Opens in a new window">Mad Men Season Five Finale Watch Party</a>, complete with 60s costume contest, Mad Men trivia, and retro food and drink. 8:00-11:00 p.m. $10 general admission, $20 admission and two hour open bar.</p>',
+  // 'icon': 'theatre-15'
+  // },
+  // 'geometry': {
+  // 'type': 'Point',
+  // 'coordinates': [-77.003168, 38.894651]
+  // }
+  // },
+  // {
+  // 'type': 'Feature',
+  // 'properties': {
+  // 'description':
+  // '<strong>Big Backyard Beach Bash and Wine Fest</strong><p>EatBar (2761 Washington Boulevard Arlington VA) is throwing a <a href="http://tallulaeatbar.ticketleap.com/2012beachblanket/" target="_blank" title="Opens in a new window">Big Backyard Beach Bash and Wine Fest</a> on Saturday, serving up conch fritters, fish tacos and crab sliders, and Red Apron hot dogs. 12:00-3:00 p.m. $25.grill hot dogs.</p>',
+  // 'icon': 'bar-15'
+  // },
+  // 'geometry': {
+  // 'type': 'Point',
+  // 'coordinates': [-77.090372, 38.881189]
+  // }
+  // },
+  // {
+  // 'type': 'Feature',
+  // 'properties': {
+  // 'description':
+  // '<strong>Ballston Arts & Crafts Market</strong><p>The <a href="http://ballstonarts-craftsmarket.blogspot.com/" target="_blank" title="Opens in a new window">Ballston Arts & Crafts Market</a> sets up shop next to the Ballston metro this Saturday for the first of five dates this summer. Nearly 35 artists and crafters will be on hand selling their wares. 10:00-4:00 p.m.</p>',
+  // 'icon': 'art-gallery-15'
+  // },
+  // 'geometry': {
+  // 'type': 'Point',
+  // 'coordinates': [-77.111561, 38.882342]
+  // }
+  // },
+  // {
+  // 'type': 'Feature',
+  // 'properties': {
+  // 'description':
+  // '<strong>Seersucker Bike Ride and Social</strong><p>Feeling dandy? Get fancy, grab your bike, and take part in this year\'s <a href="http://dandiesandquaintrelles.com/2012/04/the-seersucker-social-is-set-for-june-9th-save-the-date-and-start-planning-your-look/" target="_blank" title="Opens in a new window">Seersucker Social</a> bike ride from Dandies and Quaintrelles. After the ride enjoy a lawn party at Hillwood with jazz, cocktails, paper hat-making, and more. 11:00-7:00 p.m.</p>',
+  // 'icon': 'bicycle-15'
+  // },
+  // 'geometry': {
+  // 'type': 'Point',
+  // 'coordinates': [-77.052477, 38.943951]
+  // }
+  // },
+  // {
+  // 'type': 'Feature',
+  // 'properties': {
+  // 'description':
+  // '<strong>Capital Pride Parade</strong><p>The annual <a href="http://www.capitalpride.org/parade" target="_blank" title="Opens in a new window">Capital Pride Parade</a> makes its way through Dupont this Saturday. 4:30 p.m. Free.</p>',
+  // 'icon': 'rocket-15'
+  // },
+  // 'geometry': {
+  // 'type': 'Point',
+  // 'coordinates': [-77.043444, 38.909664]
+  // }
+  // },
+  // {
+  // 'type': 'Feature',
+  // 'properties': {
+  // 'description':
+  // '<strong>Muhsinah</strong><p>Jazz-influenced hip hop artist <a href="http://www.muhsinah.com" target="_blank" title="Opens in a new window">Muhsinah</a> plays the <a href="http://www.blackcatdc.com">Black Cat</a> (1811 14th Street NW) tonight with <a href="http://www.exitclov.com" target="_blank" title="Opens in a new window">Exit Clov</a> and <a href="http://godsilla.bandcamp.com" target="_blank" title="Opens in a new window">Gods’illa</a>. 9:00 p.m. $12.</p>',
+  // 'icon': 'music-15'
+  // },
+  // 'geometry': {
+  // 'type': 'Point',
+  // 'coordinates': [-77.031706, 38.914581]
+  // }
+  // },
+  // {
+  // 'type': 'Feature',
+  // 'properties': {
+  // 'description':
+  // '<strong>A Little Night Music</strong><p>The Arlington Players\' production of Stephen Sondheim\'s  <a href="http://www.thearlingtonplayers.org/drupal-6.20/node/4661/show" target="_blank" title="Opens in a new window"><em>A Little Night Music</em></a> comes to the Kogod Cradle at The Mead Center for American Theater (1101 6th Street SW) this weekend and next. 8:00 p.m.</p>',
+  // 'icon': 'music-15'
+  // },
+  // 'geometry': {
+  // 'type': 'Point',
+  // 'coordinates': [-77.020945, 38.878241]
+  // }
+  // },
+  // {
+  // 'type': 'Feature',
+  // 'properties': {
+  // 'description':
+  // '<strong>Truckeroo</strong><p><a href="http://www.truckeroodc.com/www/" target="_blank">Truckeroo</a> brings dozens of food trucks, live music, and games to half and M Street SE (across from Navy Yard Metro Station) today from 11:00 a.m. to 11:00 p.m.</p>',
+  // 'icon': 'music-15'
+  // },
+  // 'geometry': {
+  // 'type': 'Point',
+  // 'coordinates': [-77.007481, 38.876516]
+  // }
+  // }
+  // ]
+  // }
+  // });
+  // // Add a layer showing the places.
+  // map.addLayer({
+  // 'id': 'places',
+  // 'type': 'symbol',
+  // 'source': 'places',
+  // 'layout': {
+  // 'icon-image': '{icon}',
+  // 'icon-allow-overlap': true
+  // }
+  // });
+   
+  // // When a click event occurs on a feature in the places layer, open a popup at the
+  // // location of the feature, with description HTML from its properties.
+  // map.on('click', 'places', (e) => {
+  // // Copy coordinates array.
+  // const coordinates = e.features[0].geometry.coordinates.slice();
+  // const description = e.features[0].properties.description;
+   
+  // // Ensure that if the map is zoomed out such that multiple
+  // // copies of the feature are visible, the popup appears
+  // // over the copy being pointed to.
+  // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+  // coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+  // }
+   
+  // new mapboxgl.Popup()
+  // .setLngLat(coordinates)
+  // .setHTML(description)
+  // .addTo(map);
+  // });
+   
+  // // Change the cursor to a pointer when the mouse is over the places layer.
+  // map.on('mouseenter', 'places', () => {
+  // map.getCanvas().style.cursor = 'pointer';
+  // });
+   
+  // // Change it back to a pointer when it leaves.
+  // map.on('mouseleave', 'places', () => {
+  // map.getCanvas().style.cursor = '';
+  // });
+  // });
+  
+  // // When a click event occurs on a feature in the places layer, open a popup at the
+  // // location of the feature, with description HTML from its properties.
+  // map.on('click', 'places', (e) => {
+  // // Copy coordinates array.
+  // const coordinates = e.features[0].geometry.coordinates.slice();
+  // const description = e.features[0].properties.description;
+   
+  // // Ensure that if the map is zoomed out such that multiple
+  // // copies of the feature are visible, the popup appears
+  // // over the copy being pointed to.
+  // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+  // coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+  // console.log(coordinates,description);
+  // }
+   
+  // new mapboxgl.Popup()
+  // .setLngLat(coordinates)
+  // .setHTML(description)
+  // .addTo(map);
+  // });
+  
+  // // Change the cursor to a pointer when the mouse is over the places layer.
+  // map.on('mouseenter', 'places', () => {
+  // map.getCanvas().style.cursor = 'pointer';
+  // });
+   
+  // // Change it back to a pointer when it leaves.
+  // map.on('mouseleave', 'places', () => {
+  // map.getCanvas().style.cursor = '';
+  // });
+   -->
+
+   <!-- css file in header -->
+
+    <!-- 
+      old css before linking the css file in header
+      <style>
       .mapboxgl-popup {
       max-width: 400px;
       font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -26,10 +447,11 @@
         background-color: rgb(0, 0, 255);
         color: white;
       }
-      </style>
-</head>
-<body>
+      </style> -->
 
+      <!-- css file in body -->
+
+      <!-- old css before linking the css file
   <style>
     .coordinates {
       background: rgba(0, 0, 0, 0.5);
@@ -71,356 +493,40 @@
       cursor: default;
     }
     </style>
+    -->
 
-  <!-- Load the `mapbox-gl-geocoder` plugin. -->
-<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
-<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+
+    <!-- >>>>after mapbox token code to get the current location of the user <<<< -->
+
+    <!-- //trying something new //code for getting user current location
+    // navigator.geolocation.getCurrentPosition(successLocation, errorLocation, { enableHighAccuracy: true }) //this is the api to get your current location
   
-  <!-- map div  -->
-  <div id='map' style='width: 70vw; height: 100vh;margin-left: 15px;display: inline-block;'></div>
-
-
-  <!-- input field div  -->
-  <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;" >
-    <!-- trying to get output from user  -->
-
-
-    <% if (user) { %>
-      <p>Welcome, <%= user.name %> </p>
-    <% } else { %>
-      <p>not getting email from db</p>
-    <% } %> 
-    <a href="/savelocation">Save your favourite location</a>
-  </div>
- 
-
-  <!-- features div part -->
-  <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;" >
-    <pre id="features"></pre>
-  </div>
-
-  <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;"><a href="/logout">Logout</a></div>
-
-  <!-- <div id='map'></div> -->
-  <pre id="coordinates" class="coordinates"></pre>
-  <pre id="info" class="info"></pre>
-  <!-- <pre id="features"></pre> -->
- 
+    // function successLocation(position) {
+    //   console.log(position)
+    //   setupMap([position.coords.longitude, position.coords.latitude])  //longitude first and latitude second
+    // }
+    // function errorLocation(error) {
+    //   setupMap([-77.04, 38.907])
+    //   console.log(error)
+    // }
+    // function setupMap(center){
   
-<script>
-  mapboxgl.accessToken = 'pk.eyJ1Ijoic3VtYW4wMDA5IiwiYSI6ImNsMzY5YjB2bjFsdHozYnA5dHN3b3FrdjEifQ.rfW8EEKX9_adNETGuzkgrg';
-
-  //trying something new //code for getting user current location
-  // navigator.geolocation.getCurrentPosition(successLocation, errorLocation, { enableHighAccuracy: true }) //this is the api to get your current location
-
-  // function successLocation(position) {
-  //   console.log(position)
-  //   setupMap([position.coords.longitude, position.coords.latitude])  //longitude first and latitude second
-  // }
-  // function errorLocation(error) {
-  //   setupMap([-77.04, 38.907])
-  //   console.log(error)
-  // }
-  // function setupMap(center){
-
-  //   var map = new mapboxgl.Map({
-  //   container: 'map',
-  //   style: 'mapbox://styles/mapbox/streets-v11',
-  //   center: center,
-  //   zoom: 11.15
-  // });
-
-  // const nav = new mapboxgl.NavigationControl();
-  // map.addControl(nav);
-
-  // // Add the control to the map.
-  // map.addControl(
-  // new MapboxGeocoder({
-  // accessToken: mapboxgl.accessToken,
-  // mapboxgl: mapboxgl
-  // })
-  // );
-
-  // }
-
-  var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v11',
-    center: [-77.04, 38.907],
-    zoom: 11.15
-  });
-    // Add the control to the map.
-    map.addControl(
-    new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken,
-    mapboxgl: mapboxgl
-    })
-  );
-
- //marker part
-    map.onDragEnd
-      const marker = new mapboxgl.Marker({
-      draggable: true
-      })
-      .setLngLat([-77.04, 38.907])
-      .addTo(map);
-      
-      function onDragEnd() {
-      const lngLat = marker.getLngLat();
-      coordinates.style.display = 'block';
-      coordinates.innerHTML = `Longitude: ${lngLat.lng}<br />Latitude: ${lngLat.lat}`;
-      console.log(coordinates.innerHTML)
-      }
-      
-      marker.on('dragend', onDragEnd);
- 
-
-//getting the latitutde and logitude on click
-
-
-    map.on('click', (e) => {
-      document.getElementById('info').innerHTML =
-      // `e.point` is the x, y coordinates of the `mousemove` event
-      // relative to the top-left corner of the map.
-    JSON.stringify(e.point) +
-    '<br />' +
-    // `e.lngLat` is the longitude, latitude geographical position of the event.
-    // map.on('click', (e) => {
-    // console.log(e.point)
-      console.log(e.lngLat)
+    //   var map = new mapboxgl.Map({
+    //   container: 'map',
+    //   style: 'mapbox://styles/mapbox/streets-v11',
+    //   center: center,
+    //   zoom: 11.15
+    // });
+  
+    // const nav = new mapboxgl.NavigationControl();
+    // map.addControl(nav);
+  
+    // // Add the control to the map.
+    // map.addControl(
+    // new MapboxGeocoder({
+    // accessToken: mapboxgl.accessToken,
+    // mapboxgl: mapboxgl
     // })
-    JSON.stringify(e.lngLat.wrap());
-    });
-
-//getting information about the place
-
-    map.on('click', (e) => {
-    const features = map.queryRenderedFeatures(e.point);
-    
-    // Limit the number of properties we're displaying for
-    // legibility and performance
-    const displayProperties = [
-    'properties'
-    ];
-    
-    const displayFeatures = features.map((feat) => {
-    const displayFeat = {};
-    displayProperties.forEach((prop) => {
-    displayFeat[prop] = feat[prop];
-    });
-    return displayFeat;
-    });
- 
-    // Write object as string with an indent of two spaces.
-    // document.getElementById('features').innerHTML = JSON.stringify(
-    // displayFeatures,
-    // null,
-    // 2
     // );
-    console.log(displayFeatures)
-    });
-
   
-map.on('load', () => {
-map.addSource('places', {
-// This GeoJSON contains features that include an "icon"
-// property. The value of the "icon" property corresponds
-// to an image in the Mapbox Streets style's sprite.
-'type': 'geojson',
-'data': {
-'type': 'FeatureCollection',
-'features': [
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>Make it Mount Pleasant</strong><p><a href="http://www.mtpleasantdc.com/makeitmtpleasant" target="_blank" title="Opens in a new window">Make it Mount Pleasant</a><a href="/savelocation">save location</a> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
-'icon': 'theatre-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.038659, 38.931567]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>Mad Men Season Five Finale Watch Party</strong><p>Head to Lounge 201 (201 Massachusetts Avenue NE) Sunday for a <a href="http://madmens5finale.eventbrite.com/" target="_blank" title="Opens in a new window">Mad Men Season Five Finale Watch Party</a>, complete with 60s costume contest, Mad Men trivia, and retro food and drink. 8:00-11:00 p.m. $10 general admission, $20 admission and two hour open bar.</p>',
-'icon': 'theatre-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.003168, 38.894651]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>Big Backyard Beach Bash and Wine Fest</strong><p>EatBar (2761 Washington Boulevard Arlington VA) is throwing a <a href="http://tallulaeatbar.ticketleap.com/2012beachblanket/" target="_blank" title="Opens in a new window">Big Backyard Beach Bash and Wine Fest</a> on Saturday, serving up conch fritters, fish tacos and crab sliders, and Red Apron hot dogs. 12:00-3:00 p.m. $25.grill hot dogs.</p>',
-'icon': 'bar-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.090372, 38.881189]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>Ballston Arts & Crafts Market</strong><p>The <a href="http://ballstonarts-craftsmarket.blogspot.com/" target="_blank" title="Opens in a new window">Ballston Arts & Crafts Market</a> sets up shop next to the Ballston metro this Saturday for the first of five dates this summer. Nearly 35 artists and crafters will be on hand selling their wares. 10:00-4:00 p.m.</p>',
-'icon': 'art-gallery-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.111561, 38.882342]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>Seersucker Bike Ride and Social</strong><p>Feeling dandy? Get fancy, grab your bike, and take part in this year\'s <a href="http://dandiesandquaintrelles.com/2012/04/the-seersucker-social-is-set-for-june-9th-save-the-date-and-start-planning-your-look/" target="_blank" title="Opens in a new window">Seersucker Social</a> bike ride from Dandies and Quaintrelles. After the ride enjoy a lawn party at Hillwood with jazz, cocktails, paper hat-making, and more. 11:00-7:00 p.m.</p>',
-'icon': 'bicycle-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.052477, 38.943951]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>Capital Pride Parade</strong><p>The annual <a href="http://www.capitalpride.org/parade" target="_blank" title="Opens in a new window">Capital Pride Parade</a> makes its way through Dupont this Saturday. 4:30 p.m. Free.</p>',
-'icon': 'rocket-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.043444, 38.909664]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>Muhsinah</strong><p>Jazz-influenced hip hop artist <a href="http://www.muhsinah.com" target="_blank" title="Opens in a new window">Muhsinah</a> plays the <a href="http://www.blackcatdc.com">Black Cat</a> (1811 14th Street NW) tonight with <a href="http://www.exitclov.com" target="_blank" title="Opens in a new window">Exit Clov</a> and <a href="http://godsilla.bandcamp.com" target="_blank" title="Opens in a new window">Gods’illa</a>. 9:00 p.m. $12.</p>',
-'icon': 'music-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.031706, 38.914581]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>A Little Night Music</strong><p>The Arlington Players\' production of Stephen Sondheim\'s  <a href="http://www.thearlingtonplayers.org/drupal-6.20/node/4661/show" target="_blank" title="Opens in a new window"><em>A Little Night Music</em></a> comes to the Kogod Cradle at The Mead Center for American Theater (1101 6th Street SW) this weekend and next. 8:00 p.m.</p>',
-'icon': 'music-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.020945, 38.878241]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description':
-'<strong>Truckeroo</strong><p><a href="http://www.truckeroodc.com/www/" target="_blank">Truckeroo</a> brings dozens of food trucks, live music, and games to half and M Street SE (across from Navy Yard Metro Station) today from 11:00 a.m. to 11:00 p.m.</p>',
-'icon': 'music-15'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [-77.007481, 38.876516]
-}
-}
-]
-}
-});
-// Add a layer showing the places.
-map.addLayer({
-'id': 'places',
-'type': 'symbol',
-'source': 'places',
-'layout': {
-'icon-image': '{icon}',
-'icon-allow-overlap': true
-}
-});
- 
-// When a click event occurs on a feature in the places layer, open a popup at the
-// location of the feature, with description HTML from its properties.
-map.on('click', 'places', (e) => {
-// Copy coordinates array.
-const coordinates = e.features[0].geometry.coordinates.slice();
-const description = e.features[0].properties.description;
- 
-// Ensure that if the map is zoomed out such that multiple
-// copies of the feature are visible, the popup appears
-// over the copy being pointed to.
-while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-}
- 
-new mapboxgl.Popup()
-.setLngLat(coordinates)
-.setHTML(description)
-.addTo(map);
-});
- 
-// Change the cursor to a pointer when the mouse is over the places layer.
-map.on('mouseenter', 'places', () => {
-map.getCanvas().style.cursor = 'pointer';
-});
- 
-// Change it back to a pointer when it leaves.
-map.on('mouseleave', 'places', () => {
-map.getCanvas().style.cursor = '';
-});
-});
-
-// When a click event occurs on a feature in the places layer, open a popup at the
-// location of the feature, with description HTML from its properties.
-map.on('click', 'places', (e) => {
-// Copy coordinates array.
-const coordinates = e.features[0].geometry.coordinates.slice();
-const description = e.features[0].properties.description;
- 
-// Ensure that if the map is zoomed out such that multiple
-// copies of the feature are visible, the popup appears
-// over the copy being pointed to.
-while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-console.log(coordinates,description);
-}
- 
-new mapboxgl.Popup()
-.setLngLat(coordinates)
-.setHTML(description)
-.addTo(map);
-});
-
-// Change the cursor to a pointer when the mouse is over the places layer.
-map.on('mouseenter', 'places', () => {
-map.getCanvas().style.cursor = 'pointer';
-});
- 
-// Change it back to a pointer when it leaves.
-map.on('mouseleave', 'places', () => {
-map.getCanvas().style.cursor = '';
-});
-
-
-// Add zoom and rotation controls to the map.
-const nav = new mapboxgl.NavigationControl()
-map.addControl(nav, 'top-left');
-
-
-</script>
-
-</body>
-</html>
+    // } -->

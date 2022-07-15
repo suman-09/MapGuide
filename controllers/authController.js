@@ -103,17 +103,49 @@ module.exports.savelocation_post = async (req, res) => {
     //console.log('++++++');
     const {latitude, longitude, locationname, note } = req.body;
     try {
+        await User.findOneAndUpdate({ 
+            email: data.email
+        }, 
+            {
+                $push: {
+                    latitude: latitude,
+                    longitude: longitude,
+                    locationname: locationname,
+                    note: note
+                }
+            }
+        )
+        
+        // .then((content) => {
+        //     content.latitude = latitude
+        //     content.longitude = longitude
+        //     content.locationname = locationname
+        //     content.note = note
+        //     content.update()
+        // })
+        res.redirect('/mappage');
+        //const user = await User.updateMany({latitude: latitude, longitude: longitude, locationname: locationname, note: note });
+    }
+    catch (err) {
+        const errors = handleErrors(err);
+        res.status(400).json({ errors });
+    }
+}
+
+//map page post
+
+module.exports.mappage_post = async (req, res) => {
+    let data = res.locals.user
+    const {longitude, latitude} = req.body;
+    try {
         await User.findOne({
             email: data.email
         }).then((content) => {
-            content.latitude = latitude
             content.longitude = longitude
-            content.locationname = locationname
-            content.note = note
+            content.latitude = latitude
             content.save()
         })
         res.redirect('/mappage');
-        //const user = await User.updateMany({latitude: latitude, longitude: longitude, locationname: locationname, note: note });
     }
     catch (err) {
         const errors = handleErrors(err);

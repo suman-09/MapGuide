@@ -19,18 +19,11 @@ const userSchema = new mongoose.Schema({
         required: [true, 'please enter a password'],
         minlength: [6, 'minimum password length is 6 characters']
     },
-    latitude: {
-        type: String
-    },
-    longitude: {
-        type: String
-    },
-    locationname: {
-        type: String
-    },
-    note: {
-        type: String
-    }
+    
+    latitude: [String],
+    longitude: [String],
+    locationname: [String],
+    note: [String]
 });
 
 //password hashing
