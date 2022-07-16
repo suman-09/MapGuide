@@ -32,12 +32,14 @@
     <% } else { %>
       <p>not getting email from db</p>
     <% } %> 
-    <a href="/savelocation">Save your favourite location</a>
+    <a href="/savelocation">Add your favourite location manually</a>
+    <!-- adding place to save address on submitting -->
+    <p><form action="/mappage" method="post"><button id="submit">Save marked location</button></form></p>
   </div>
  
 
   <!-- features div part -->
-  <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;" >
+  <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 10%;text-align: right; height: 10cm;" >
     <pre id="features"></pre>
   </div>
 
@@ -75,57 +77,69 @@
       .setLngLat([-77.04, 38.907])
       .addTo(map);
       
-      function onDragEnd() {
+      async function onDragEnd() {
       const lngLat = marker.getLngLat();
       coordinates.style.display = 'block';
       coordinates.innerHTML = `Longitude: ${lngLat.lng}` + `Latitude: ${lngLat.lat}`;
-      //console.log(coordinates.innerHTML.lng);
-      //console.log(coordinates.innerHTML.lat);
+
+      //getting the values of lan lat on drag end
       const jsonlngdata = JSON.stringify(lngLat.lng);
       const jsonlatdata = JSON.stringify(lngLat.lat);
       const objlngcode = JSON.parse(jsonlngdata);
       const objlatcode = JSON.parse(jsonlatdata);
-      console.log(objlngcode);
-      console.log(objlatcode);
+      //console.log(objlngcode);
+      //console.log(objlatcode);
 
-      //adding code to save data to db
+                    // //get the values
+                    // const longitude = objlngcode;
+                    // const latitude = objlatcode;
+                    // //console.log(longitude);
+                    // //console.log(latitude);
+                    // try{
+                    //     const res = await fetch('/mappage', {
+                    //         method: 'POST',
+                    //         body: JSON.stringify({ longitude: longitude, latitude: latitude }),
+                    //         headers: {'Content-Type' : 'application/json'},
+                    //     });
+                    //     const data = await res;
+                    //     //console.log(data);
+                    //     if (data.errors) {
+                    //     }
+                    // }
+                    // catch (err) {
+                    //     console.log(err);
+                    // }
 
-      // const DragEnd = document.querySelector('onDragend');
+        
+      //----->>>>>>>adding part to save location by clicking on the submit button <<<<<<
+        const form = document.querySelector('form');
 
-      //           DragEnd.addEventListener('onDragend', async (e) => {
-      //               e.preventDefault();
+        form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-      //               //get the values
-      //               const longitude = objlngcode;
-      //               const latitude = objlatcode;
-      //               console.log(longitude);
-      //               console.log(latitude);
-      //               try{
-      //                   const res = await fetch('/mappage', {
-      //                       method: 'POST',
-      //                       body: JSON.stringify({ longitude: longitude, latitude: latitude }),
-      //                       headers: {'Content-Type' : 'application/json'},
-      //                   });
-      //                   const data = await res;
-      //                   console.log(data);
-      //                   if (data.errors) {
-      //                   }
-      //                   if (data.redirected) {
-      //                       location.assign(data.url);
-      //                   }
-      //               }
-      //               catch (err) {
-      //                   console.log(err);
-      //               }
-      //           });
+        
 
-
-
-
+            //get the values
+            const longitude = objlngcode;
+            const latitude = objlatcode;
+              try{
+                  const res = await fetch('/mappage', {
+                  method: 'POST',
+                  body: JSON.stringify({ latitude: latitude, longitude: longitude}),
+                  headers: {'Content-Type' : 'application/json'},
+                  });
+                  const data = await res;
+                  //console.log(data);
+              if (data.errors) {
+              }
+            }
+            catch (err) {
+              console.log(err);
+            }
+          });
       }
       
-      marker.on('dragend', onDragEnd);
- 
+    marker.on('dragend', onDragEnd);
 
 //getting the latitutde and logitude on click
 
@@ -137,47 +151,15 @@
     JSON.stringify(e.point) +
     '<br />' +
     // `e.lngLat` is the longitude, latitude geographical position of the event.
-    // map.on('click', (e) => {
-    // console.log(e.point)
-    // })
     JSON.stringify(e.lngLat.wrap());
     //console.log(e.lngLat);
     const jsondata = JSON.stringify(e.lngLat);
     const objdata = JSON.parse(jsondata);
     //console.log(objdata);
-    console.log(objdata.lng);
-    console.log(objdata.lat);
-    //adding part to send data to db
 
-    // const info = document.querySelector('info');
 
-    //             info.addEventListener('click', async (e) => {
-    //                 e.preventDefault();
-
-    //                 //get the values
-    //                 const longitude = objdata.lng;
-    //                 const latitude = objdata.lat;
-    //                 console.log(longitude);
-    //                 console.log(latitude);
-    //                 try{
-    //                     const res = await fetch('/mappage', {
-    //                         method: 'POST',
-    //                         body: JSON.stringify({ longitude: longitude, latitude: latitude }),
-    //                         headers: {'Content-Type' : 'application/json'},
-    //                     });
-    //                     const data = await res;
-    //                     console.log(data);
-    //                     if (data.errors) {
-    //                     }
-    //                     if (data.redirected) {
-    //                         location.assign(data.url);
-    //                     }
-    //                 }
-    //                 catch (err) {
-    //                     console.log(err);
-    //                 }
-    //             });
-
+    //console.log(objdata.lng);
+    //console.log(objdata.lat);
     });
 
 //getting information about the place
@@ -199,21 +181,20 @@
     return displayFeat;
     });
  
-    // Write object as string with an indent of two spaces.
-    // document.getElementById('features').innerHTML = JSON.stringify(
-    // displayFeatures,
-    // null,
-    // 2
-    // );
-    console.log(displayFeatures)
+    //Write object as string with an indent of two spaces.
+    document.getElementById('features').innerHTML = JSON.stringify(
+    displayFeatures,
+    null,
+    2
+    );
+    //console.log(displayFeatures);
+    const dispfeatjson = JSON.stringify(displayFeatures);
+    const dispfeatobj = JSON.stringify(dispfeatjson);
+    console.log(dispfeatobj);
+    //console.log(dispfeatobj.name);
     });
 
-  //geo coder finding place reverse geocoding
-
-  // const geocoder = new MapboxGeocoder({
-  //   accessToken: mapboxgl.accessToken,
-  //   mapboxgl: mapboxgl
-  // });
+    //comment
 
   // ---->>> information about place
 

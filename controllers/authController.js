@@ -138,14 +138,16 @@ module.exports.mappage_post = async (req, res) => {
     let data = res.locals.user
     const {longitude, latitude} = req.body;
     try {
-        await User.findOne({
+        await User.findOneAndUpdate({ 
             email: data.email
-        }).then((content) => {
-            content.longitude = longitude
-            content.latitude = latitude
-            content.save()
-        })
-        res.redirect('/mappage');
+        }, 
+            {
+                $push: {
+                    latitude: latitude,
+                    longitude: longitude
+                }
+            }
+        )
     }
     catch (err) {
         const errors = handleErrors(err);
