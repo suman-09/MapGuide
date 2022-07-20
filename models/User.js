@@ -20,8 +20,8 @@ const userSchema = new mongoose.Schema({
         minlength: [6, 'minimum password length is 6 characters']
     },
     
-    latitude: [String],
     longitude: [String],
+    latitude: [String],
     locationname: [String],
     note: [String]
 });
@@ -44,18 +44,3 @@ userSchema.methods.login = async function(password) {
 const User = mongoose.model('user', userSchema);
 
 module.exports = User;
-
-//old not working authentication code
-
-    // const user = await this.findOne({ email });
-    // console.log(user);
-
-    // if (user) {
-    //     //changing for salt
-    //     const auth = await bcrypt.compare(password, user.password);
-    //     if (auth) {
-    //         return user;
-    //     }
-    //     throw Error('incorrect password');
-    // }
-    // throw Error('incorrect email');

@@ -1,6 +1,5 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-// const { name } = require('ejs');
 
 //handle errors
 const handleErrors = (err) => {
@@ -16,7 +15,6 @@ const handleErrors = (err) => {
     //validation errors
     if (err.message.includes('user validation failed')) {
         Object.values(err.errors).forEach(({ properties }) => {
-            // console.log(properties);
             errors[properties.path] = properties.message;
         })
     }
@@ -68,7 +66,6 @@ module.exports.login_post = async (req, res) => {
         }
         else{
             let uid = user2._id+'';
-            // console.log(uid);
             const token = createToken(uid);
             res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
             //res.status(200).json({ user: user._id });
@@ -97,11 +94,36 @@ module.exports.savelocation_get = (req, res) => {
 //save location post
 
 module.exports.savelocation_post = async (req, res) => {
-    //console.log(req);
-    //console.log(res.locals.user);
+
     let data = res.locals.user
-    //console.log('++++++');
-    const {latitude, longitude, locationname, note } = req.body;
+
+    const {longitude, latitude, locationname, note} = req.body;
+    try {
+        await User.findOneAndUpdate({ 
+            email: data.email
+        }, 
+            {
+                $push: {
+                    longitude: longitude,
+                    latitude: latitude,
+                    locationname: locationname,
+                    note: note
+                }
+            }
+        )
+        res.redirect('/mappage');
+    }
+    catch (err) {
+        const errors = handleErrors(err);
+        res.status(400).json({ errors });
+    }
+}
+
+//map page post
+
+module.exports.mappage_post = async (req, res) => {
+    let data = res.locals.user
+    const {longitude, latitude, locationname, note} = req.body;
     try {
         await User.findOneAndUpdate({ 
             email: data.email
@@ -115,16 +137,6 @@ module.exports.savelocation_post = async (req, res) => {
                 }
             }
         )
-        
-        // .then((content) => {
-        //     content.latitude = latitude
-        //     content.longitude = longitude
-        //     content.locationname = locationname
-        //     content.note = note
-        //     content.update()
-        // })
-        res.redirect('/mappage');
-        //const user = await User.updateMany({latitude: latitude, longitude: longitude, locationname: locationname, note: note });
     }
     catch (err) {
         const errors = handleErrors(err);
@@ -132,25 +144,8 @@ module.exports.savelocation_post = async (req, res) => {
     }
 }
 
-//map page post
+// get request for save location page
 
-module.exports.mappage_post = async (req, res) => {
-    let data = res.locals.user
-    const {longitude, latitude} = req.body;
-    try {
-        await User.findOneAndUpdate({ 
-            email: data.email
-        }, 
-            {
-                $push: {
-                    latitude: latitude,
-                    longitude: longitude
-                }
-            }
-        )
-    }
-    catch (err) {
-        const errors = handleErrors(err);
-        res.status(400).json({ errors });
-    }
+module.exports.favlocation_get = (req, res) => {
+    res.render('favlocation.ejs');
 }

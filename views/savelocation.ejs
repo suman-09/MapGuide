@@ -35,14 +35,14 @@
                     e.preventDefault();
 
                     //get the values
-                    const latitude = form.latitude.value;
                     const longitude = form.longitude.value;
+                    const latitude = form.latitude.value;
                     const locationname = form.locationname.value;
                     const note = form.note.value;
                     try{
                         const res = await fetch('/savelocation', {
                             method: 'POST',
-                            body: JSON.stringify({ latitude: latitude, longitude: longitude, locationname: locationname, note: note  }),
+                            body: JSON.stringify({ longitude: longitude, latitude: latitude, locationname: locationname, note: note }),
                             headers: {'Content-Type' : 'application/json'},
                         });
                         const data = await res;

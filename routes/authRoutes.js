@@ -13,6 +13,7 @@ router.get('/mappage', requireAuth, checkUser, authController.mappage_get); //ad
 router.post('/mappage', requireAuth, checkUser, authController.mappage_post); //added post for mappage
 router.get('/savelocation',requireAuth, checkUser, authController.savelocation_get); //added routing for savelocation page
 router.post('/savelocation',requireAuth, checkUser, authController.savelocation_post); 
+router.get('/favlocation',requireAuth, checkUser, authController.favlocation_get); //added routing for favlocation page
 
 
 module.exports = router;

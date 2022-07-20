@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
-// const { checkUser } = require('./middleware/authMiddleware');
+// const User = require('./models/User');//added to get data from mongodb
 
 //load env vars
 dotenv.config({path: './.env'});
@@ -26,14 +26,15 @@ mongoose.connect(dbURI)
  .catch((err) => console.log(err));
 
 //routes
-// app.get('*', checkUser);
 app.get('/', (req,res) => {
     res.render('home.ejs', {name: 'kyle'}); //changed from index to home.ejs
 });
 app.use(authRoutes);
 
-
-
+//getting the data in server but send it to the favlocation
+// User.find({User},function(err,users){
+//     console.log(users);
+// })
 
 
 //only for learning
