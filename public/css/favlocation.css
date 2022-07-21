@@ -1,0 +1,54 @@
+body{
+    height: 100vh;
+    background-image: url('/images/favbg.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#favourite{
+    position: absolute;
+    text-align: center;
+    font-size: 166%;
+    padding-left: 45%;
+    color: rgba(19, 100, 192, 0.829);
+}
+#favourite:hover{
+    opacity: 83%;
+}
+a{
+    text-decoration: none;
+    
+    border: 3.7px solid sandybrown;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+a.info{
+    text-decoration: none;
+    border: 0.7px solid sandybrown;
+    padding: 1px 1px;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+a:hover{
+    background-color: rgba(230, 116, 23, 0.733);
+    color: rgb(247, 222, 0);
+  }
+li.logout{
+    display: inline;
+    color: rgb(9, 116, 158);
+    font-size: 1.4em;
+    margin-left: 74%;
+}
+li.welcome{
+    display: inline;
+    color: rgb(9, 116, 158);
+    font-size: 1.4em;
+}
+#locname{
+    font-size: 1.6em;
+}
+ol{
+    margin-top: 10%;
+    margin-left: 49%;
+    color: slateblue;
+}

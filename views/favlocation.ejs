@@ -4,38 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/favlocation.css">
     <title>Favourite Location</title>
 </head>
 <body>
-    <div>
-    <% if (user) %>
-        <h1>Welcome, <%= user.name %> </h1>
+    <div id="nav">
+        <ul>
+            <% if (user) %>
+            <li class="welcome">Welcome, <%= user.name %></li>
+            <li class="logout"><a href="/mappage"> Map-Page </a><a href="/logout">Logout</a></li>
+        </ul>
     </div>
-    <div>
-        <h2>Your top 8 Favourite Locations</h2>
+    <div id="favourite">
+        <h2>Your Favourite Locations</h2>
     </div>
-    <div>
-        <ol>
-            <li><%= user.locationname[0] %> <br>
-            <%= user.note[0] %> <br><br></li>
-            <li><%= user.locationname[1] %> <br>
-            <%= user.note[1] %> <br><br></li>
-            <li><%= user.locationname[2] %> <br>
-            <%= user.note[2] %> <br><br></li>
-            <li><%= user.locationname[3] %> <br>
-            <%= user.note[3] %> <br><br></li>
-            <li><%= user.locationname[4] %> <br>
-            <%= user.note[4] %> <br><br></li>
-            <li><%= user.locationname[5] %> <br>
-            <%= user.note[5] %> <br><br></li>
-            <li><%= user.locationname[6] %> <br>
-            <%= user.note[6] %> <br><br></li>
-            <li><%= user.locationname[7] %> <br>
-            <%= user.note[7] %> <br><br></li>
+    <div id="locname">
+        <ol> <% for (let i=0 ; i<user.note.length ; i++) { %>
+            <li><%= user.locationname[i] %> <br>
+                <%= user.note[i] %>
+                <a class="info" href="https://www.wikipedia.org/wiki/<%=user.locationname[i]%>"target="_blank" rel="noopener">Know More...</a>
+            <% } %>
         </ol>
-    </div>
-    <p><span>Back to Map-Page</span><span><a href="/mappage"> Map-Page </a></span></p>
-    <script src="../views/favlocation.js"></script>
-
+    </div>    
+    
 </body>
 </html>

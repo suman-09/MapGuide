@@ -14,42 +14,38 @@
 </head>
 <body>
 
-  <!-- Load the `mapbox-gl-geocoder` plugin. -->
+<!-- Load the `mapbox-gl-geocoder` plugin. -->
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
   
   <!-- map div  -->
-  <div id='map' style='width: 70vw; height: 100vh;margin-left: 15px;display: inline-block;'></div>
-
 
   <!-- input field div  -->
   <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;" >
     <!-- trying to get output from user  -->
-
-    <div>
-    <% if (user) { %>
-      <p>Welcome, <%= user.name %> </p>
-    <% } else { %>
-      <p>not getting email from db</p>
-    <% } %> 
-    </div>
-    <a href="/savelocation">Add your favourite location manually</a>
-    <!-- adding place to save address on submitting -->
-    <p><form id="simple" action="/mappage" method="post"><button type="submit">Save marked location to favourites</button></form></p>
-    <p><a href="/favlocation"><% if (user) %> <%= user.name %>'s Favourite Locations</a></p>
-    <div style="position: absolute;margin-left: 1px;margin-top: 0px;text-align: right; height: 10%; width: 20%;" >
-      <pre id="features"></pre>
-    </div>
-    
+    <ul>
+      <div>
+        <% if (user) { %>
+          <p>Welcome, <%= user.name %> </p>
+        <% } else { %>
+          <p>not getting email from db</p>
+        <% } %> 
+      </div>
+        <a href="/savelocation">Add your favourite location manually</a>
+        <!-- adding place to save address on submitting -->
+        <p><form id="simple" action="/mappage" method="post"><button type="submit">Save marked location to favourites</button></form></p>
+      <div style="position: absolute;margin-left: 1px;margin-top: 0px;text-align: right; height: 10%; width: 20%;" >
+        <pre id="features"></pre>
+      </div>
+      <div>
+        <p><a href="/favlocation"><% if (user) %> <%= user.name %>'s Favourite Locations</a></p>
+      </div>
+    </ul>
   </div>
 
   <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;"><a href="/logout">Logout</a></div>
+  <div id="map"></div>
 
-
-  <!-- <pre id="info" class="info"></pre> -->
-
- 
-  
 <script>
 
   mapboxgl.accessToken = 'pk.eyJ1Ijoic3VtYW4wMDA5IiwiYSI6ImNsMzY5YjB2bjFsdHozYnA5dHN3b3FrdjEifQ.rfW8EEKX9_adNETGuzkgrg';
@@ -80,7 +76,6 @@ form.addEventListener('submit', async (p) => {
             const latitude = data.latitude;
             const locationname = data.locationname; 
             const note = data.maki;
-            console.log(longitude);
               try{
                   const res = await fetch('/mappage', {
                   method: 'POST',
@@ -101,8 +96,6 @@ form.addEventListener('submit', async (p) => {
       e.preventDefault();
 
       features = map.queryRenderedFeatures(e.point);
-      console.log(e.point);
-
     const displayFeatures = [
       features[0].properties.name,
       features[0].properties.maki,

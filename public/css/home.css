@@ -1,32 +1,4 @@
-/* .mapboxgl-popup {
-    max-width: 400px;
-    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    }
-    a{
-      text-decoration: none;
-      border: 2px solid blue;
-      padding: 5px 10px;
-      border-radius: 5px;
-      transition: all 0.2s;
-    }
-    a:hover{
-      background-color: rgb(0, 0, 255);
-      color: white;
-    }
-    body{
-        background-image: url('../public/images/homebg.jpeg');
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-    #submit{
-        color: rgb(85, 175, 235);
-        border: 2px solid rgb(9, 91, 214);
-    }
-    #submit:hover{
-        background-color: rgb(0, 247, 255);
-        color: white;
-    } */
-    a{
+  a{
       text-decoration: none;
       border: 2px solid blue;
       padding: 5px 10px;

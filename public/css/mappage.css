@@ -1,3 +1,17 @@
+body{
+    height: 100vh;
+    background-image: url('/images/mapbg.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#map{
+    width: 70vw; 
+    height: 98vh;
+    margin-left: 28%;
+    margin-bottom: 23%;
+    display: inline-block;
+    padding: 3px solid rgb(6, 1, 7);
+}
 .mapboxgl-popup {
     max-width: 400px;
     font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -56,9 +70,13 @@ button:hover{
         top: auto;
         right: auto;
         bottom: auto;
-        width: auto;
+        height: auto;
+        width: 22vw;
         overflow: auto;
-        background: rgba(125, 215, 231, 0.8);
+        margin-top: 60%;
+        background: rgb(3, 218, 247);
+        opacity: 90%;
+        border-radius: 8px;
     }
 #map canvas {
         cursor: default;
