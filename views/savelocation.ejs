@@ -1,69 +1,58 @@
-<!-- importing register page content -->
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Based Map</title>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="/css/savelocation.css">
+
+    <title>WEB_BASED_MAP</title>
+    
 </head>
-
 <body>
-    <div>
-        <div>
-            <p>Save your favourite location</p>
-            <form action="/savelocation" method="post">
-                <!-- /Login changed to register  -->
-                <label for="latitude">Latitude : </label>
-                <input type="number" id="latitude" name="latitude"><br><br>
-                <label for="longitude">Longitude : </label>
-                <input type="number" id="longitude" name="longitude"><br><br>
-                <label for="locationname">Location_name : </label>
-                <input type="text" id="locationname" name="locationname"><br><br>
-            
-                  <label for="note">Note : </label>
-                  <textarea name="note" id="note" style="resize: none;" cols="30" rows="7"></textarea><br><br>
-                <p><button id="submit">Savelocation</button></p>
-            </form>
 
-            <!-- js for sending data to server  -->
-            <script>
-                const form = document.querySelector('form');
+<!-- nav bar  -->
+  <div>
+    <ul id="nav" style="list-style: none;">
+      <li class="username">Welcome, <%= user.name %></li>
+      <li class="logout"><a href="/mappage"> Map-Page </a><a href="/favlocation">Your Favourite Locations</a><a href="/logout">Logout</a></li>
+    </ul>
+   </div>
 
-                form.addEventListener('submit', async (e) => {
-                    e.preventDefault();
+<!-- Load the `mapbox-gl-geocoder` plugin. -->
+<!-- direction  -->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css">
 
-                    //get the values
-                    const longitude = form.longitude.value;
-                    const latitude = form.latitude.value;
-                    const locationname = form.locationname.value;
-                    const note = form.note.value;
-                    try{
-                        const res = await fetch('/savelocation', {
-                            method: 'POST',
-                            body: JSON.stringify({ longitude: longitude, latitude: latitude, locationname: locationname, note: note }),
-                            headers: {'Content-Type' : 'application/json'},
-                        });
-                        const data = await res;
-                        console.log(data);
-                        if (data.errors) {
-                        }
-                        if (data.redirected) {
-                            location.assign(data.url); 
-                        }
-                    }
-                    catch (err) {
-                        console.log(err);
-                    }
-                });
-            </script>
+<!-- map div  -->
+  <div id="map"></div>
+<script>
 
-            <p><span>Back to Map-Page</span><span><a href="/mappage"> Map-Page </a></span></p>
-        </div>
+  mapboxgl.accessToken = 'pk.eyJ1Ijoic3VtYW4wMDA5IiwiYSI6ImNsMzY5YjB2bjFsdHozYnA5dHN3b3FrdjEifQ.rfW8EEKX9_adNETGuzkgrg';
 
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [-77.04, 38.907],
+    zoom: 11.15
+  });
 
-    </div>
+// Add zoom and rotation controls to the map.
+const nav = new mapboxgl.NavigationControl()
+map.addControl(nav, 'top-right');
+
+//direction feature
+map.addControl(
+new MapboxDirections({
+accessToken: mapboxgl.accessToken
+}),
+'top-left'
+);
+
+</script>
+
 </body>
-
 </html>

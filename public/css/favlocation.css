@@ -16,7 +16,6 @@ body{
 }
 a{
     text-decoration: none;
-    
     border: 3.7px solid sandybrown;
     padding: 5px 10px;
     border-radius: 5px;
@@ -37,7 +36,7 @@ li.logout{
     display: inline;
     color: rgb(9, 116, 158);
     font-size: 1.4em;
-    margin-left: 74%;
+    margin-left: 68%;
 }
 li.welcome{
     display: inline;

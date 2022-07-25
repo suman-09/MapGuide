@@ -5,6 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+        integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+        integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+        crossorigin="anonymous"></script>
+
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" href="/css/mappage.css">
@@ -14,36 +23,26 @@
 </head>
 <body>
 
+<!-- nav bar  -->
+  <div>
+    <ul id="nav" style="list-style: none;">
+      <li class="username">Welcome, <%= user.name %></li>
+      <li class="logout"> <a class="btn btn-success btn-sm " href="/savelocation">Find Shortest Route</a> <a class="aspcl" href="/favlocation">Your Favourite Locations</a> <a class="btn btn-danger btn-sm " href="/logout">Log Out</a></li>
+    </ul>
+   </div>
+
 <!-- Load the `mapbox-gl-geocoder` plugin. -->
+<!-- search bar  -->
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
-  
-  <!-- map div  -->
-
-  <!-- input field div  -->
+<!-- input field div  -->
   <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;" >
-    <!-- trying to get output from user  -->
-    <ul>
-      <div>
-        <% if (user) { %>
-          <p>Welcome, <%= user.name %> </p>
-        <% } else { %>
-          <p>not getting email from db</p>
-        <% } %> 
-      </div>
-        <a href="/savelocation">Add your favourite location manually</a>
-        <!-- adding place to save address on submitting -->
         <p><form id="simple" action="/mappage" method="post"><button type="submit">Save marked location to favourites</button></form></p>
       <div style="position: absolute;margin-left: 1px;margin-top: 0px;text-align: right; height: 10%; width: 20%;" >
-        <pre id="features"></pre>
+        <p id="features"></p>
       </div>
-      <div>
-        <p><a href="/favlocation"><% if (user) %> <%= user.name %>'s Favourite Locations</a></p>
-      </div>
-    </ul>
   </div>
-
-  <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;"><a href="/logout">Logout</a></div>
+<!-- map div  -->
   <div id="map"></div>
 
 <script>
@@ -56,13 +55,6 @@
     center: [-77.04, 38.907],
     zoom: 11.15
   });
-    // Searching feature--->
-    map.addControl(
-    new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken,
-    mapboxgl: mapboxgl
-    })
-  ); 
 
 //getting information about the place
 
@@ -71,6 +63,7 @@ let data = {};
 const form = document.getElementById('simple');
 form.addEventListener('submit', async (p) => {
         p.preventDefault();
+        alert("location saved");
             //get the values
             const longitude = data.longitude;
             const latitude = data.latitude;
@@ -98,10 +91,7 @@ form.addEventListener('submit', async (p) => {
       features = map.queryRenderedFeatures(e.point);
     const displayFeatures = [
       features[0].properties.name,
-      features[0].properties.maki,
-      "longitude : ",features[0].geometry.coordinates[0],
-      "latitude : ", features[0].geometry.coordinates[1]
-    ]
+      features[0].properties.maki]
     data = {
       "locationname":features[0].properties.name,
       "maki":features[0].properties.maki,
@@ -109,21 +99,24 @@ form.addEventListener('submit', async (p) => {
       "latitude":features[0].geometry.coordinates[1]
     }
 
-    //Write object as string with an indent of two spaces.
-    document.getElementById('features').innerHTML = JSON.stringify(
-    displayFeatures,
-    null,
-    2
-    );
+    //Write information of selected place.
+    document.getElementById('features').innerHTML = displayFeatures;
     });
+
+// Searching feature--->
+  map.addControl(
+    new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl
+    }),
+    'top-right'
+  ); 
 
 // Add zoom and rotation controls to the map.
 const nav = new mapboxgl.NavigationControl()
 map.addControl(nav, 'top-left');
 
-
 </script>
 
 </body>
 </html>
-

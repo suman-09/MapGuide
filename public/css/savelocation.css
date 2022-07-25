@@ -5,32 +5,30 @@ body{
     background-size: cover;
 }
 #map{
-    width: 73vw; 
-    height: 88vh;
-    margin-left: 26%;
-    margin-bottom: 0%;
+    width: 99vw; 
+    height: 89vh;
     display: inline-block;
     padding: 3px solid rgb(6, 1, 7);
     border-radius: 12px;
+    margin-top: 0px;
 }
 .mapboxgl-popup {
     max-width: 400px;
     font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
     }
-a.aspcl{
-      font-family: fantasy;
-      border: 2px solid rgb(214, 75, 233);
+a{
+      text-decoration: none;
+      border: 2px solid blue;
       padding: 5px 10px;
       border-radius: 5px;
       transition: all 0.2s;
     }
-a.aspcl:hover{
-      background-color: rgb(171, 17, 209);
+a:hover{
+      background-color: rgb(0, 0, 255);
       color: white;
     }
 button{
-      font-family: fantasy;
-      color: rgb(255, 0, 255);
+      text-decoration: none;
       border: 2px solid rgb(236, 64, 208);
       padding: 5px 10px;
       border-radius: 5px;
@@ -40,35 +38,6 @@ button:hover{
       background-color: rgb(238, 27, 203);
       color: white;
     }
-#info {
-        display: table;
-        position: absolute;
-        margin: 0px auto;
-        word-wrap: anywhere;
-        white-space: pre-wrap;
-        padding: 10px;
-        border: none;
-        border-radius: 3px;
-        font-size: 12px;
-        text-align: left;
-        color: #222;
-        background: rgb(60, 175, 228);
-    }
-#features {
-        position: absolute;
-        top: auto;
-        right: auto;
-        bottom: auto;
-        height: auto;
-        width: 22vw;
-        overflow: auto;
-        margin-top: 60%;
-        background: rgb(3, 218, 247);
-        opacity: 90%;
-        border-radius: 2px;
-        font-size: 2em;
-        text-align: left;
-    }  
 #map canvas {
         cursor: default;
     }
@@ -77,7 +46,7 @@ button:hover{
     flex-direction: row;
 }
 li.logout{
-    margin-left: 53%;
+    margin-left: 58%;
 }
 li.username{
     font-size: 180%;
