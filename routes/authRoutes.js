@@ -16,7 +16,7 @@ router.get('/savelocation',requireAuth, checkUser, authController.savelocation_g
 router.post('/savelocation',requireAuth, checkUser, authController.savelocation_post); 
 router.get('/favlocation',requireAuth, checkUser, authController.favlocation_get); //added routing for favlocation page
 
-fetchWikiExtract("amazon")
+fetchWikiExtract("American University")
 //console.log(wikidata);
 
 

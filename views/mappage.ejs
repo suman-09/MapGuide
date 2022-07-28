@@ -26,7 +26,7 @@
 <!-- nav bar  -->
   <div>
     <ul id="nav" style="list-style: none;">
-      <li class="username">Welcome, <%= user.name %></li>
+      <li class="username">Welcome, <%= user.name %></li><li><form id="simple" action="/mappage" method="post"><button type="submit">Favourite marked location</button></form></li>
       <li class="logout"> <a class="btn btn-success btn-sm " href="/savelocation">Find Shortest Route</a> <a class="aspcl" href="/favlocation">Your Favourite Locations</a> <a class="btn btn-danger btn-sm " href="/logout">Log Out</a></li>
     </ul>
    </div>
@@ -36,10 +36,10 @@
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
 <!-- input field div  -->
-  <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 20px;text-align: right;" >
-        <p><form id="simple" action="/mappage" method="post"><button type="submit">Save marked location to favourites</button></form></p>
-      <div style="position: absolute;margin-left: 1px;margin-top: 0px;text-align: right; height: 10%; width: 20%;" >
+  <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 0px;text-align: right;" >
         <p id="features"></p>
+      <div style="position: absolute;margin-left: 1px;margin-top: 73px;text-align: right; height: 10%; width: 20%;" >
+        <p><img id="img" src="https://img.freepik.com/free-photo/beautiful-autumn-leaves-autumn-red-background-sunny-daylight-horizontal_1220-1665.jpg?w=2000&t=st=1659042340~exp=1659042940~hmac=5a7319b791c22771764f7c361403db7364638fb9877c1459400387a3f53e2be2" alt=""><img id="img1" src="https://img.freepik.com/free-photo/beautiful-autumn-leaves-autumn-red-background-sunny-daylight-horizontal_1220-1665.jpg?w=2000&t=st=1659042340~exp=1659042940~hmac=5a7319b791c22771764f7c361403db7364638fb9877c1459400387a3f53e2be2" alt=""><img id="img2" src="https://img.freepik.com/free-photo/beautiful-autumn-leaves-autumn-red-background-sunny-daylight-horizontal_1220-1665.jpg?w=2000&t=st=1659042340~exp=1659042940~hmac=5a7319b791c22771764f7c361403db7364638fb9877c1459400387a3f53e2be2" alt=""></p>
       </div>
   </div>
 <!-- map div  -->
@@ -52,8 +52,8 @@
   var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
-    center: [-77.04, 38.907],
-    zoom: 11.15
+    center: [87.2931, 23.5496],
+    zoom: 15.06
   });
 
 //getting information about the place
@@ -101,7 +101,27 @@ form.addEventListener('submit', async (p) => {
 
     //Write information of selected place.
     document.getElementById('features').innerHTML = displayFeatures;
-    });
+
+    //get image of the place
+      const url = 'https://api.unsplash.com/search/photos/?query='+data.locationname+'&page=1&order_by=relevant&client_id=QN-3GOYb9qZ2hka1F11Tm2t7m4PEy0L4Yj92ZYF2b3g';
+
+      fetch(url).then((response) => {
+        return response.json();
+      }).then((data) => {
+          const imgData = [ 
+            data.results[0].urls.full,
+            data.results[1].urls.full,
+            data.results[2].urls.full,
+          ]
+          document.getElementById('img').src = imgData[0];
+          document.getElementById('img1').src = imgData[1];
+          document.getElementById('img2').src = imgData[2];
+      }).catch((err) => {
+          console.log(err);
+      });
+
+
+  });
 
 // Searching feature--->
   map.addControl(
@@ -109,15 +129,15 @@ form.addEventListener('submit', async (p) => {
     accessToken: mapboxgl.accessToken,
     mapboxgl: mapboxgl
     }),
-    'top-right'
+    'top-left'
   ); 
 
 // Add zoom and rotation controls to the map.
 const nav = new mapboxgl.NavigationControl()
-map.addControl(nav, 'top-left');
+map.addControl(nav, 'top-right');
 
 </script>
-<script src="/helpers/mappage.js"></script>
+<!-- <script src="/helpers/mappage.js"></script> -->
 
 </body>
 </html>

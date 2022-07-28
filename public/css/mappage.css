@@ -3,11 +3,12 @@ body{
     background-image: url('/images/mapbg.jpeg');
     background-repeat: no-repeat;
     background-size: cover;
+    padding: 5px;
 }
 #map{
-    width: 73vw; 
+    width: 70vw; 
     height: 88vh;
-    margin-left: 26%;
+    margin-left: 28%;
     margin-bottom: 0%;
     display: inline-block;
     padding: 3px solid rgb(6, 1, 7);
@@ -35,6 +36,7 @@ button{
       padding: 5px 10px;
       border-radius: 5px;
       transition: all 0.2s;
+      margin-left: 18px;
     }
 button:hover{
       background-color: rgb(238, 27, 203);
@@ -55,6 +57,7 @@ button:hover{
         background: rgb(60, 175, 228);
     }
 #features {
+        font-family: fantasy;
         position: absolute;
         top: auto;
         right: auto;
@@ -62,11 +65,10 @@ button:hover{
         height: auto;
         width: 22vw;
         overflow: auto;
-        margin-top: 60%;
-        background: rgb(3, 218, 247);
-        opacity: 90%;
-        border-radius: 2px;
-        font-size: 2em;
+        /* background: rgb(3, 218, 247); */
+        /* opacity: 90%; */
+        /* border-radius: 2px; */
+        font-size: 1.4em;
         text-align: left;
     }  
 #map canvas {
@@ -77,7 +79,7 @@ button:hover{
     flex-direction: row;
 }
 li.logout{
-    margin-left: 53%;
+    margin-left: 35%;
 }
 li.username{
     font-size: 180%;
@@ -88,4 +90,19 @@ li.username:hover{
     font-size: 180%;
     font-family: cursive;
     color: rgb(154, 84, 235);
+}
+#img{
+    display: flex;
+    width: 20vw;
+    height: 15vw;
+}
+#img1{
+    display: flex;
+    width: 20vw;
+    height: 15vw;    
+}
+#img2{
+    display: flex;
+    width: 20vw;
+    height: 15vw;
 }
