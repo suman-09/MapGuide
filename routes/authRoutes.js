@@ -1,8 +1,6 @@
 const { Router } = require('express');
 const authController = require('../controllers/authController');
 const { requireAuth, checkUser } = require('../middleware/authMiddleware');
-const { fetchWikiExtract } = require('../public/helpers/mappage')//wikipedia api fetch
-
 const router = Router();
 
 router.get('/register', authController.register_get);
@@ -15,9 +13,6 @@ router.post('/mappage', requireAuth, checkUser, authController.mappage_post); //
 router.get('/savelocation',requireAuth, checkUser, authController.savelocation_get); //added routing for savelocation page
 router.post('/savelocation',requireAuth, checkUser, authController.savelocation_post); 
 router.get('/favlocation',requireAuth, checkUser, authController.favlocation_get); //added routing for favlocation page
-
-fetchWikiExtract("American University")
-//console.log(wikidata);
 
 
 module.exports = router;

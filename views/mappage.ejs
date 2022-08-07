@@ -15,6 +15,7 @@
         crossorigin="anonymous"></script>
 
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" href="/css/mappage.css">
 
@@ -26,8 +27,8 @@
 <!-- nav bar  -->
   <div>
     <ul id="nav" style="list-style: none;">
-      <li class="username">Welcome, <%= user.name %></li><li><form id="simple" action="/mappage" method="post"><button type="submit">Favourite marked location</button></form></li>
-      <li class="logout"> <a class="btn btn-success btn-sm " href="/savelocation">Find Shortest Route</a> <a class="aspcl" href="/favlocation">Your Favourite Locations</a> <a class="btn btn-danger btn-sm " href="/logout">Log Out</a></li>
+      <li class="username">Map_App</li><li><form id="simple" action="/mappage" method="post"><button type="submit">Favourite marked location</button></form></li>
+      <li class="logout"> <a class="btn btn-success btn-sm " href="/savelocation">Direction</a> <a class="aspcl" href="/favlocation">Favourite Locations</a> <a class="btn btn-danger btn-sm " href="/logout">Log Out</a></li>
     </ul>
    </div>
 
@@ -39,11 +40,14 @@
   <div style="display: inline-block; position: absolute;margin-left: 35px;margin-top: 0px;text-align: right;" >
         <p id="features"></p>
       <div style="position: absolute;margin-left: 1px;margin-top: 73px;text-align: right; height: 10%; width: 20%;" >
-        <p><img id="img" src="https://img.freepik.com/free-photo/beautiful-autumn-leaves-autumn-red-background-sunny-daylight-horizontal_1220-1665.jpg?w=2000&t=st=1659042340~exp=1659042940~hmac=5a7319b791c22771764f7c361403db7364638fb9877c1459400387a3f53e2be2" alt=""><img id="img1" src="https://img.freepik.com/free-photo/beautiful-autumn-leaves-autumn-red-background-sunny-daylight-horizontal_1220-1665.jpg?w=2000&t=st=1659042340~exp=1659042940~hmac=5a7319b791c22771764f7c361403db7364638fb9877c1459400387a3f53e2be2" alt=""><img id="img2" src="https://img.freepik.com/free-photo/beautiful-autumn-leaves-autumn-red-background-sunny-daylight-horizontal_1220-1665.jpg?w=2000&t=st=1659042340~exp=1659042940~hmac=5a7319b791c22771764f7c361403db7364638fb9877c1459400387a3f53e2be2" alt=""></p>
+        <p><img id="img" src="https://img.freepik.com/free-photo/beautiful-autumn-leaves-autumn-red-background-sunny-daylight-horizontal_1220-1665.jpg?w=2000&t=st=1659042340~exp=1659042940~hmac=5a7319b791c22771764f7c361403db7364638fb9877c1459400387a3f53e2be2" alt=""><img id="img1" src="https://img.freepik.com/free-photo/beautiful-autumn-leaves-autumn-red-background-sunny-daylight-horizontal_1220-1665.jpg?w=2000&t=st=1659042340~exp=1659042940~hmac=5a7319b791c22771764f7c361403db7364638fb9877c1459400387a3f53e2be2" alt="">
+          <img id="img2" src="https://img.freepik.com/free-photo/beautiful-autumn-leaves-autumn-red-background-sunny-daylight-horizontal_1220-1665.jpg?w=2000&t=st=1659042340~exp=1659042940~hmac=5a7319b791c22771764f7c361403db7364638fb9877c1459400387a3f53e2be2" alt="">
+        </p>
       </div>
   </div>
 <!-- map div  -->
   <div id="map"></div>
+  <div id="wikidata" style="height: 10cm;overflow: scroll;"></div>
 
 <script>
 
@@ -52,8 +56,8 @@
   var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
-    center: [87.2931, 23.5496],
-    zoom: 15.06
+    center: [88.3639, 22.5726],
+    zoom: 12.00
   });
 
 //getting information about the place
@@ -99,7 +103,7 @@ form.addEventListener('submit', async (p) => {
       "latitude":features[0].geometry.coordinates[1]
     }
 
-    //Write information of selected place.
+  //Write information of selected place.
     document.getElementById('features').innerHTML = displayFeatures;
 
     //get image of the place
@@ -120,6 +124,34 @@ form.addEventListener('submit', async (p) => {
           console.log(err);
       });
 
+  //getting wiki api
+    const param = data.locationname;
+    fetchWikiExtract(param);
+
+    async function fetchWikiExtract(param) {
+    const wikiEndpoint = 'https://en.wikipedia.org/w/api.php';
+    const wikiParams = '?action=query'
+    + "&prop=extracts"
+    + "&exlimit=1"
+    + "&titles=" + param
+    + "&explaintext=1"
+    + "&format=json"
+    + "&formatversion=2"
+    + "&origin=*";
+  
+    const wikiLink = wikiEndpoint + wikiParams
+  
+    var wikiconfig = {
+      timeout: 650000000000
+    };
+    
+    const data = await axios.get(wikiLink, wikiconfig);
+
+    document.getElementById('wikidata').innerHTML = data.data.query.pages[0].extract;
+
+    return data;
+
+    };
 
   });
 
@@ -137,7 +169,6 @@ const nav = new mapboxgl.NavigationControl()
 map.addControl(nav, 'top-right');
 
 </script>
-<!-- <script src="/helpers/mappage.js"></script> -->
 
 </body>
 </html>
