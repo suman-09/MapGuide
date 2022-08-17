@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"nodemon server.js"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -14,10 +14,12 @@
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
+    "bootstrap": "^5.2.0",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
     "express": "^4.18.1",
+    "http": "^0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.6",
     "validator": "^13.7.0"

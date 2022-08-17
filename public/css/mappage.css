@@ -6,13 +6,14 @@ body{
     padding: 5px;
 }
 #map{
-    width: 70vw; 
-    height: 88vh;
-    margin-left: 28%;
-    margin-bottom: 0%;
+    width: 100vw; 
+    height: 100vh;
     display: inline-block;
     padding: 3px solid rgb(6, 1, 7);
     border-radius: 12px;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 .mapboxgl-popup {
     max-width: 400px;
@@ -29,19 +30,9 @@ a.aspcl:hover{
       background-color: rgb(171, 17, 209);
       color: white;
     }
-button{
-      font-family: fantasy;
-      color: rgb(255, 0, 255);
-      border: 2px solid rgb(236, 64, 208);
-      padding: 5px 10px;
-      border-radius: 5px;
-      transition: all 0.2s;
-      margin-left: 18px;
-    }
-button:hover{
-      background-color: rgb(238, 27, 203);
-      color: white;
-    }
+#mabtn:hover{
+    background-color: rgb(245, 98, 240);
+}
 #info {
         display: table;
         position: absolute;
@@ -65,9 +56,6 @@ button:hover{
         height: auto;
         width: 22vw;
         overflow: auto;
-        /* background: rgb(3, 218, 247); */
-        /* opacity: 90%; */
-        /* border-radius: 2px; */
         font-size: 1.4em;
         text-align: left;
     }  
@@ -93,16 +81,35 @@ li.username:hover{
 }
 #img{
     display: flex;
-    width: 20vw;
-    height: 15vw;
+    width: 28vw;
+    height: 18vw;
 }
 #img1{
     display: flex;
-    width: 20vw;
-    height: 15vw;    
+    width: 27.5vw;
+    height: 17vw;   
 }
 #img2{
     display: flex;
-    width: 20vw;
-    height: 15vw;
+    width: 27.5vw;
+    height: 17vw;
 }
+#side_nav {
+  height: 100vh;
+  width: 0;
+  background-color:white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  overflow-x: hidden;
+  transition: 0.5s;
+  transition: all 0.5s;
+  overflow: scroll;
+}
+.mySlides {
+  display:none;
+  padding-left: 3px;
+}
+.w3-left, .w3-right, .w3-badge {cursor:pointer}
+.w3-badge {height:13px;width:13px;padding:0}
