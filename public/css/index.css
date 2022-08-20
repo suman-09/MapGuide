@@ -3,7 +3,6 @@
     background-image: url('/images/loginbg.jpeg');
     background-repeat: no-repeat;
     background-size: cover;
-    /* border: 2px solid red; */
     backdrop-filter: blur(5px);
 }
 .loginForm{
@@ -13,12 +12,5 @@
      border-radius: 15px;
      backdrop-filter: blur(5px);
 }
-#submit{
-    color: red;
-    border: 2px solid red;
-}
-#submit:hover{
-    background-color: red;
-    color: white;
-}
+
 

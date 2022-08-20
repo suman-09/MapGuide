@@ -26,7 +26,7 @@
                     <label for="email" class="form-label"></label>
                     <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelpId"
                         placeholder="Enter Your Email" required> 
-                        <!-- input type text dala email se change kr k -->
+                        <!-- input type changed to text from email -->
                 </div>
                 <div class="email error" style="color: cadetblue; padding: 2px;" ></div>
                 <!-- password  -->
@@ -35,7 +35,7 @@
                     <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password" required>
                 </div>
                 <div class="password error" style="color: cadetblue; padding: 2px;"></div>
-                <p class="text-center my-5"><button id="submit">Submit</button></p>
+                <p class="text-center my-5  "><button id="submit" class="btn btn-outline-danger">Submit</button></p>
             </form>
 
             <!-- js for sending data to server  -->
@@ -56,26 +56,19 @@
                     const password = form.password.value;
                     console.log(email, password);
                     try{
-                        // console.log("Try is working1");
                         const res = await fetch('/login', {
                             method: 'POST',
                             body: JSON.stringify({ email, password }), 
-                            //"email: email" as both of them r same so we can use name, email instead of writing them full
                             headers: { 'Content-Type' : 'application/json' }
                         });
-                        // console.log("Try is working2");
                         const data = await res;
-                        // console.log(data);
                         if (data.redirected) {
                             location.assign(data.url);
                         }
-                        // console.log("Try is working3");
                     }
                     catch (err) {
-                        // console.log("Try is working4");
                         console.log(err);
                     }
-                    // console.log("Try is working5");
                 });
             </script>
 

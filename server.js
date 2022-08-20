@@ -26,7 +26,7 @@ mongoose.connect(dbURI)
 
 //routes
 app.get('/', (req,res) => {
-    res.render('home.ejs', {name: 'kyle'});
+    res.render('login.ejs', {name: 'kyle'});
 });
 app.use(authRoutes);
 
